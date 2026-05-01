@@ -1,0 +1,15 @@
+package org.example.order_service.kafka.event;
+
+import lombok.Data;
+import org.example.order_service.dto.request.DeductStockRequest;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+
+import java.util.List;
+
+@Data
+public class OrderCreatedEvent {
+    private String orderId;
+
+    private List<DeductStockRequest> deductRequests;
+
+}

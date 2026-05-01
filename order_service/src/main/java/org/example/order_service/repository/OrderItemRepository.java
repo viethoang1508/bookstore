@@ -1,0 +1,11 @@
+package org.example.order_service.repository;
+
+import org.example.order_service.entity.OrderItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
+    List<OrderItem> findByOrderIdIn(List<String> orderIds);
+    List<OrderItem> findByOrderId (String orderId);
+}
