@@ -1,7 +1,7 @@
 package org.example.order_service.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.order_service.dto.BaseResponse;
+import org.example.order_service.dto.response.BaseResponse;
 import org.example.order_service.dto.response.OrderResponse;
 import org.example.order_service.service.OrderService;
 import org.springframework.http.ResponseEntity;

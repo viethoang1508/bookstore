@@ -8,6 +8,7 @@ import org.example.book_service.dto.response.InternalBookDTO;
 import org.example.book_service.entity.Book;
 import org.example.book_service.exception.ApplicationException;
 import org.example.book_service.kafka.event.*;
+import org.example.book_service.kafka.producer.StockEventProducer;
 import org.example.book_service.mapper.BookMapper;
 import org.example.book_service.repository.BookRepository;
 import org.example.book_service.service.InternalService;
@@ -29,7 +30,7 @@ public class InternalServiceImpl implements InternalService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final RedissonClient redissonClient;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final StockEventProducer stockEventProducer;
 
     @Override
     @Transactional
@@ -183,7 +184,7 @@ public class InternalServiceImpl implements InternalService {
         event.setReason(reason.name());
         event.setFailedItems(failedItems);
 
-        kafkaTemplate.send("order-stock-failed", event);
+        stockEventProducer.publishStockFailed(event);
     }
 
     private void deductSuccess(String orderId,
@@ -194,6 +195,6 @@ public class InternalServiceImpl implements InternalService {
         event.setOrderId(orderId);
         event.setStatus("SUCCESS");
 
-        kafkaTemplate.send("order-stock-deducted", event);
+        stockEventProducer.publishStockDeducted(event);
     }
 }

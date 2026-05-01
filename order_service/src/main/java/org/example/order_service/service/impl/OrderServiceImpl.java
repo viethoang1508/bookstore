@@ -13,10 +13,10 @@ import org.example.order_service.exception.ApplicationException;
 import org.example.order_service.kafka.event.OrderCreatedEvent;
 import org.example.order_service.kafka.event.OrderStockDeductedEvent;
 import org.example.order_service.kafka.event.OrderStockFailedEvent;
+import org.example.order_service.kafka.producer.OrderEventProducer;
 import org.example.order_service.repository.OrderItemRepository;
 import org.example.order_service.repository.OrderRepository;
 import org.example.order_service.service.OrderService;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BookClient bookClient;
     private final PromotionClient promotionClient;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final OrderEventProducer orderEventProducer;
+
 
     @Override
     public CheckoutPreviewResponse preview(PlaceOrderRequest request, String userId) {
@@ -421,7 +422,7 @@ public class OrderServiceImpl implements OrderService {
         orderCreatedEvent.setOrderId(order.getId());
         orderCreatedEvent.setDeductRequests(deductRequests);
 
-        kafkaTemplate.send("order-created", orderCreatedEvent);
+        orderEventProducer.publishOrderCreated(orderCreatedEvent);
 
         // 10. TẠO RESPONSE
         OrderResponse orderResponse = new OrderResponse();

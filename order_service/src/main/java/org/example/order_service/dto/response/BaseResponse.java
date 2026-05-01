@@ -1,4 +1,4 @@
-package org.example.order_service.dto;
+package org.example.order_service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,7 +2,7 @@ package org.example.book_service.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.book_service.dto.BaseResponse;
+import org.example.book_service.dto.response.BaseResponse;
 import org.example.book_service.dto.request.CategoryRequest;
 import org.example.book_service.entity.Category;
 import org.example.book_service.service.AdminCategoryService;

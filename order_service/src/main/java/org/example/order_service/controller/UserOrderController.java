@@ -2,7 +2,7 @@ package org.example.order_service.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.order_service.dto.BaseResponse;
+import org.example.order_service.dto.response.BaseResponse;
 import org.example.order_service.dto.request.PlaceOrderRequest;
 import org.example.order_service.dto.response.CheckoutPreviewResponse;
 import org.example.order_service.dto.response.OrderResponse;
