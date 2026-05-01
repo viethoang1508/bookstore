@@ -3,9 +3,8 @@ package org.example.book_service.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.book_service.dto.BaseResponse;
-import org.example.book_service.dto.request.UpdateStockRequestDto;
+import org.example.book_service.dto.request.UpdateStockRequest;
 import org.example.book_service.dto.response.InternalBookDTO;
-import org.example.book_service.service.CatalogService;
 import org.example.book_service.service.InternalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class InternalController {
     @PatchMapping("/books/{id}/stock")
     public ResponseEntity<BaseResponse<Void>> updateStock(
             @PathVariable String id,
-            @RequestBody @Valid UpdateStockRequestDto request
+            @RequestBody @Valid UpdateStockRequest request
     ) {
         internalService.updateStock(id, request);
         return ResponseEntity.ok(new BaseResponse<>(null, "Update stock successfully"));

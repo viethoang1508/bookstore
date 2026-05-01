@@ -1,5 +1,6 @@
 package org.example.order_service.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.order_service.dto.BaseResponse;
 import org.example.order_service.dto.request.PlaceOrderRequest;
@@ -15,15 +16,15 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/orders")
-public class OrderController {
+@RequestMapping("/user/orders")
+public class UserOrderController {
 
     private final OrderService orderService;
 
     // Preview order
     @PostMapping("/checkout-preview")
     public ResponseEntity<BaseEntity<CheckoutPreviewResponse>> preview (
-            @RequestBody PlaceOrderRequest request,
+            @RequestBody @Valid PlaceOrderRequest request,
             JwtAuthenticationToken jwtAuthenticationToken
     ){
         String userId = jwtAuthenticationToken.getName();
@@ -33,7 +34,7 @@ public class OrderController {
     // Place order
     @PostMapping("/place")
     public ResponseEntity<BaseEntity<OrderResponse>> placeOrder (
-            @RequestBody PlaceOrderRequest request,
+            @RequestBody @Valid PlaceOrderRequest request,
             JwtAuthenticationToken jwtAuthenticationToken
     ){
         String userId = jwtAuthenticationToken.getName();

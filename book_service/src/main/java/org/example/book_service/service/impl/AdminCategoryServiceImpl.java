@@ -1,7 +1,7 @@
 package org.example.book_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.book_service.dto.request.CategoryDto;
+import org.example.book_service.dto.request.CategoryRequest;
 import org.example.book_service.entity.Category;
 import org.example.book_service.exception.ApplicationException;
 import org.example.book_service.repository.CategoryRepository;
@@ -15,7 +15,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public Category createCategory(CategoryDto request) {
+    public Category createCategory(CategoryRequest request) {
         validateRequest(request);
 
         Category category = new Category();
@@ -28,7 +28,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     }
 
     @Override
-    public Category updateCategory(String id, CategoryDto request) {
+    public Category updateCategory(String id, CategoryRequest request) {
         validateId(id);
         validateRequest(request);
 
@@ -52,7 +52,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         categoryRepository.deleteById(id);
     }
 
-    private void validateRequest(CategoryDto request) {
+    private void validateRequest(CategoryRequest request) {
         if (request == null) {
             throw new ApplicationException("Request is empty");
         }

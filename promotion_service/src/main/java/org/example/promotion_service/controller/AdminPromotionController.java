@@ -29,7 +29,7 @@ public class AdminPromotionController {
     // Update promotion
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponse<PromotionResponse>> update(@PathVariable String id,
-                                                                  @RequestBody UpdatePromotionRequest request){
+                                                                  @RequestBody @Valid UpdatePromotionRequest request){
         return ResponseEntity.ok(new BaseResponse<>(adminPromotionService.update(request, id), "Update promotion successfully"));
     }
 
@@ -48,7 +48,7 @@ public class AdminPromotionController {
     // Assign books
     @PostMapping("/{id}/books")
     public ResponseEntity<BaseResponse<Void>> assignBooks(@PathVariable String id,
-                                                          @RequestBody AssignBooksRequest request)
+                                                          @RequestBody @Valid AssignBooksRequest request)
     {
         return ResponseEntity.ok(new BaseResponse<>(adminPromotionService.assignBooks(id, request), "Assign books successfully"));
     }

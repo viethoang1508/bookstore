@@ -2,9 +2,8 @@ package org.example.book_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.Producer;
 import org.example.book_service.dto.request.DeductStockRequest;
-import org.example.book_service.dto.request.UpdateStockRequestDto;
+import org.example.book_service.dto.request.UpdateStockRequest;
 import org.example.book_service.dto.response.InternalBookDTO;
 import org.example.book_service.entity.Book;
 import org.example.book_service.exception.ApplicationException;
@@ -34,7 +33,7 @@ public class InternalServiceImpl implements InternalService {
 
     @Override
     @Transactional
-    public void updateStock(String bookId, UpdateStockRequestDto request) {
+    public void updateStock(String bookId, UpdateStockRequest request) {
         Book book = getBook(bookId);
         int delta = request.getDelta();
         int current = book.getStock() != null ? book.getStock() : 0;
@@ -77,7 +76,7 @@ public class InternalServiceImpl implements InternalService {
 
         // validate
         if (orderId == null || deductRequests == null || deductRequests.isEmpty()) {
-            deductFailed(orderId, StockFailReason.UNKNOWN, null);
+            deductFailed(orderId, StockFailureReason.UNKNOWN, null);
             return;
         }
 
@@ -88,7 +87,7 @@ public class InternalServiceImpl implements InternalService {
             Integer quantity = request.getQuantity();
 
             if (bookId == null || quantity == null || quantity <= 0) {
-                deductFailed(orderId, StockFailReason.UNKNOWN, null);
+                deductFailed(orderId, StockFailureReason.UNKNOWN, null);
                 return;
             }
 
@@ -113,7 +112,7 @@ public class InternalServiceImpl implements InternalService {
             // Thử lấy lock trong 10s và giữ lock trong 5s
             acquired = lock.tryLock(10, 5, TimeUnit.SECONDS);
             if (!acquired) {
-                deductFailed(orderId, StockFailReason.LOCK_FAILED, null);
+                deductFailed(orderId, StockFailureReason.LOCK_FAILED, null);
                 return;
             }
 
@@ -127,22 +126,22 @@ public class InternalServiceImpl implements InternalService {
             for (String bookId : productIds) {
                 Book book = bookMap.get(bookId);
                 if (book == null) {
-                    deductFailed(orderId, StockFailReason.BOOK_NOT_FOUND, null);
+                    deductFailed(orderId, StockFailureReason.BOOK_NOT_FOUND, null);
                     return;
                 }
 
                 int needQty = qtyByBookId.get(bookId);
 
                 if (book.getStock() < needQty) {
-                    StockErrorItem errorItem = new StockErrorItem();
+                    StockFailureItem errorItem = new StockFailureItem();
                     errorItem.setBookId(bookId);
                     errorItem.setRequestedQty(needQty);
                     errorItem.setAvailableStock(book.getStock());
 
-                    List<StockErrorItem> errorItems = new ArrayList<>();
+                    List<StockFailureItem> errorItems = new ArrayList<>();
                     errorItems.add(errorItem);
 
-                    deductFailed(orderId, StockFailReason.NOT_ENOUGH_STOCK, errorItems);
+                    deductFailed(orderId, StockFailureReason.NOT_ENOUGH_STOCK, errorItems);
                     return;
                 }
 
@@ -160,7 +159,7 @@ public class InternalServiceImpl implements InternalService {
 
             log.error("Lock interrupted, orderId={}", orderId, e);
 
-            deductFailed(orderId, StockFailReason.UNKNOWN, null);
+            deductFailed(orderId, StockFailureReason.UNKNOWN, null);
 
             throw new RuntimeException(e);
 
@@ -177,7 +176,7 @@ public class InternalServiceImpl implements InternalService {
         }
     }
 
-    private void deductFailed(String orderId, StockFailReason reason, List<StockErrorItem> failedItems) {
+    private void deductFailed(String orderId, StockFailureReason reason, List<StockFailureItem> failedItems) {
         OrderStockFailedEvent event = new OrderStockFailedEvent();
 
         event.setOrderId(orderId);

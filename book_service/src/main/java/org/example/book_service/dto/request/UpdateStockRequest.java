@@ -4,9 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UpdateStockRequestDto {
-
-    /** Dương: nhập thêm; âm: trừ tồn (ví dụ sau khi đặt hàng). */
+public class UpdateStockRequest {
     @NotNull(message = "Delta is required")
     private Integer delta;
 }

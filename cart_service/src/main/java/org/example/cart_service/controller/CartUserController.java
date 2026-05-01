@@ -1,7 +1,7 @@
 package org.example.cart_service.controller;
 
-import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.example.cart_service.dto.BaseResponse;
 import org.example.cart_service.dto.request.AddToCartRequest;
 import org.example.cart_service.dto.request.UpdateQuantityRequest;
@@ -12,9 +12,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/user/cart")
 @RequiredArgsConstructor
-public class CartController {
+public class CartUserController {
 
     private final CartService cartService;
 
@@ -30,7 +30,7 @@ public class CartController {
     // Thêm items
     @PostMapping("/items")
     public ResponseEntity<BaseResponse<Void>> addItemToCart(
-            @RequestBody AddToCartRequest request,
+            @RequestBody @Valid AddToCartRequest request,
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
@@ -41,7 +41,7 @@ public class CartController {
     @PutMapping("/items/{bookId}")
     public ResponseEntity<BaseResponse<Void>> updateItemInCart(
             @PathVariable String bookId,
-            @RequestBody UpdateQuantityRequest request,
+            @RequestBody @Valid UpdateQuantityRequest request,
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();

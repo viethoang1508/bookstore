@@ -8,5 +8,5 @@ import java.util.List;
 public class OrderStockFailedEvent {
     private String orderId
     private String reason;
-    private List<StockErrorItem> failedItems;
+    private List<StockFailureItem> failedItems;
 }
