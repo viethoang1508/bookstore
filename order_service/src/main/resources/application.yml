@@ -1,1 +1,38 @@
-spring.application.name=order_service
+spring:
+  application:
+    order-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_service_db
+    username: root
+    password: 15082004
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: order-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: http://localhost:8180/realms/phone_ecommerce/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework.cloud.loadbalancer: DEBUG
+    reactor.netty.http.client: DEBUG
+
+server:
+  port: 8089
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
