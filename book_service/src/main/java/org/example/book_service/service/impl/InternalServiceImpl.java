@@ -154,7 +154,7 @@ public class InternalServiceImpl implements InternalService {
 
             // event thành công
             deductSuccess(orderId, deductRequests);
-            
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
 

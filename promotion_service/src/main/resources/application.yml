@@ -1,16 +1,16 @@
 spring:
   application:
-    name: cart-service
+    name: book-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/cart_service_db
+    url: jdbc:mysql://localhost:3306/promotion_service_db
     username: root
     password: 15082004
 
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: cart-service
+      group-id: promotion-service
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -24,7 +24,7 @@ spring:
 #          jwk-set-uri: http://localhost:8180/realms/bookstore/protocol/openid-connect/certs
 
 server:
-  port: 8083
+  port: 8082
 
 eureka:
   instance:
