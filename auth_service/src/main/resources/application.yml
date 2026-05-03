@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: auth-service
+
+keycloak:
+  auth-server-url: http://localhost:8180
+  realm: fill_later
+  resource: fill_later
+  credentials:
+    secret: 'fill_later'
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+server:
+  port: 8080

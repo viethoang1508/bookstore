@@ -18,7 +18,6 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
-    private final AddressService addressService;
     private final AddressMapper addressMapper;
 
     @Override

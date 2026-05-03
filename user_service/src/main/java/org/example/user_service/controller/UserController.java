@@ -1,7 +1,9 @@
 package org.example.user_service.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.user_service.dto.request.CreateUserRequest;
 import org.example.user_service.dto.request.UpdateProfileRequest;
 import org.example.user_service.dto.response.BaseResponse;
 import org.example.user_service.dto.response.UserResponse;
@@ -26,12 +28,19 @@ public class UserController {
         return ResponseEntity.ok(new BaseResponse<>(userService.getMyProfile(userId), "Get personal profile successfully"));
     }
 
-    @PutMapping("/me")
+    @PutMapping("/update")
     public ResponseEntity<BaseResponse<UserResponse>> updateProfile(
             JwtAuthenticationToken token,
             @RequestBody UpdateProfileRequest request
     ) {
         String userId = token.getName();
         return ResponseEntity.ok(new BaseResponse<>(userService.updateProfile(userId, request), "Update personal profile successfully"));
+    }
+
+    @PutMapping("/create")
+    public ResponseEntity<BaseResponse<UserResponse>> createProfile(
+            @RequestBody @Valid CreateUserRequest request
+    ) {
+        return ResponseEntity.ok(new BaseResponse<>(userService.createProfile(request), "Create personal profile successfully"));
     }
 }
