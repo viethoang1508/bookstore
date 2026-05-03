@@ -37,4 +37,9 @@ public class InternalController {
     public ResponseEntity<BaseResponse<Set<String>>> checkIfBooksExist(@RequestBody List<String> bookIds){
         return ResponseEntity.ok(new BaseResponse<>(internalService.checkIfBooksExist(bookIds), "Finish checking book"));
     }
+
+    @PostMapping("/books/info")
+    public ResponseEntity<BaseResponse<List<InternalBookDTO>>> getBooksInfo(@RequestBody List<String> bookIds){
+        return ResponseEntity.ok(new BaseResponse<>(internalService.getBooksInfo(bookIds), "Get books successfully"));
+    }
 }

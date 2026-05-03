@@ -153,8 +153,8 @@ public class InternalServiceImpl implements InternalService {
             bookRepository.saveAll(books);
 
             // event thành công
-            deductSuccess();
-
+            deductSuccess(orderId, deductRequests);
+            
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
 
@@ -196,5 +196,14 @@ public class InternalServiceImpl implements InternalService {
         event.setStatus("SUCCESS");
 
         stockEventProducer.publishStockDeducted(event);
+    }
+
+    @Override
+    public List<InternalBookDTO> getBooksInfo(List<String> bookIds) {
+        List<Book> books = bookRepository.findAllByIdIn(bookIds);
+
+        return books.stream()
+                .map(bookMapper::toInternalBookDTO)
+                .toList();
     }
 }

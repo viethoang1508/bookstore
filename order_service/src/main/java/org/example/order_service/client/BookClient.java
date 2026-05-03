@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface BookClient {
-    Set<BookDTO> getBooksInfo(List<String> bookIds);
+    List<BookDTO> getBooksInfo(List<String> bookIds);
 }

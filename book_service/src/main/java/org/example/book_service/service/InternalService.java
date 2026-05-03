@@ -13,4 +13,5 @@ public interface InternalService {
     InternalBookDTO getBookForCart(String bookId);
     Set<String> checkIfBooksExist(List<String> bookIds);
     void deductBooks(OrderCreatedEvent orderCreatedEvent);
+    List<InternalBookDTO> getBooksInfo(List<String> bookIds);
 }
