@@ -26,6 +26,7 @@ public class PublicPromotionServiceImpl implements PublicPromotionService {
 
     @Override
     public List<PromotionResponse> getAll() {
+        log.info("Fetching active public promotions");
         LocalDateTime now = LocalDateTime.now();
 
         return promotionRepository
@@ -37,7 +38,9 @@ public class PublicPromotionServiceImpl implements PublicPromotionService {
 
     @Override
     public PromotionResponse getByCode(String code) {
+        log.info("Fetching promotion by code={}", code);
         if (code == null || code.isBlank()) {
+            log.warn("Fetch promotion by code rejected because code is invalid");
             throw new ApplicationException("Invalid code");
         }
         Promotion promotion = promotionRepository.findByCode(code)

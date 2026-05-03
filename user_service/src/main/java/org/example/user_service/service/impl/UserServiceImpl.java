@@ -1,6 +1,7 @@
 package org.example.user_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.user_service.dto.request.UpdateProfileRequest;
 import org.example.user_service.dto.response.UserResponse;
 import org.example.user_service.entity.User;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getMyProfile(String userId) {
+        log.info("Fetching user profile, userId={}", userId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
         }
@@ -26,11 +29,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {throw new ApplicationException("Cannot find user with id " + {userId});});
 
+        log.info("Fetched user profile successfully, userId={}", userId);
         return userMapper.toResponse(user);
     }
 
     @Override
     public UserResponse updateProfile(String userId, UpdateProfileRequest request) {
+        log.info("Updating user profile, userId={}", userId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
         }
@@ -44,17 +49,20 @@ public class UserServiceImpl implements UserService {
 
         user = userMapper.updateUser(request);
 
+        log.info("Updated user profile successfully, userId={}", userId);
         return userMapper.toResponse(user);
     }
 
     @Override
     public UserResponse createProfile(UpdateProfileRequest request) {
+        log.info("Creating user profile");
         if (request == null) {
             throw new ApplicationException("Invalid request");
         }
 
         User user = userMapper.toEntity(request);
 
+        log.info("Created user profile successfully");
         return userMapper.toResponse(user);
     }
 }

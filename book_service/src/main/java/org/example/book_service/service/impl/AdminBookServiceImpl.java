@@ -1,6 +1,7 @@
 package org.example.book_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.book_service.dto.request.BookCreateRequest;
 import org.example.book_service.dto.request.BookUpdateRequest;
 import org.example.book_service.entity.Book;
@@ -14,37 +15,48 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminBookServiceImpl implements AdminBookService {
 
     private final BookRepository bookRepository;
 
     @Override
     public Book createBook(BookCreateRequest request) {
+        log.info("Creating book, title={}, isbn={}", request != null ? request.getTitle() : null, request != null ? request.getIsbn() : null);
         validateCreateRequest(request);
         if (request.getIsbn() != null && !request.getIsbn().isBlank() && bookRepository.existsByIsbn(request.getIsbn())) {
+            log.warn("Create book rejected because ISBN already exists, isbn={}", request.getIsbn());
             throw new ApplicationException("ISBN already exists");
         }
 
         Book book = new Book();
         applyCreateFields(book, request);
-        return bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
+        log.info("Book created successfully, id={}", savedBook.getBookId());
+        return savedBook;
     }
 
     @Override
     public Book updateBook(BookUpdateRequest request, String id) {
+        log.info("Updating book, id={}", id);
         Book book = getExistingBook(id);
         applyUpdateFields(book, request);
-        return bookRepository.save(book);
+        Book updatedBook = bookRepository.save(book);
+        log.info("Book updated successfully, id={}", id);
+        return updatedBook;
     }
 
     @Override
     public void deleteBook(String id) {
+        log.info("Deleting book, id={}", id);
         Book book = getExistingBook(id);
         bookRepository.delete(book);
+        log.info("Book deleted successfully, id={}", id);
     }
 
     @Override
     public Page<Book> getAllBooks() {
+        log.info("Fetching all books with default pagination");
         return bookRepository.findAll(
                 PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAt"))
         );
@@ -52,6 +64,7 @@ public class AdminBookServiceImpl implements AdminBookService {
 
     @Override
     public Book getBookById(String id) {
+        log.info("Fetching book by id={}", id);
         return getExistingBook(id);
     }
 

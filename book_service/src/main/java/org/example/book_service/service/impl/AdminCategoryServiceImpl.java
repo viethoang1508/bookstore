@@ -1,6 +1,7 @@
 package org.example.book_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.book_service.dto.request.CategoryRequest;
 import org.example.book_service.entity.Category;
 import org.example.book_service.exception.ApplicationException;
@@ -10,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     private final CategoryRepository categoryRepository;
 
     @Override
     public Category createCategory(CategoryRequest request) {
+        log.info("Creating category, name={}", request != null ? request.getName() : null);
         validateRequest(request);
 
         Category category = new Category();
@@ -24,11 +27,13 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
         Category newCategory = categoryRepository.save(category);
 
+        log.info("Category created successfully, id={}", newCategory.getId());
         return newCategory;
     }
 
     @Override
     public Category updateCategory(String id, CategoryRequest request) {
+        log.info("Updating category, id={}", id);
         validateId(id);
         validateRequest(request);
 
@@ -40,16 +45,20 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
         Category newCategory = categoryRepository.save(category);
 
+        log.info("Category updated successfully, id={}", newCategory.getId());
         return newCategory;
     }
 
     @Override
     public void deleteCategory(String id) {
+        log.info("Deleting category, id={}", id);
         validateId(id);
         if (!categoryRepository.existsById(id)) {
+            log.warn("Delete category rejected because category not found, id={}", id);
             throw new ApplicationException("Category not found");
         }
         categoryRepository.deleteById(id);
+        log.info("Category deleted successfully, id={}", id);
     }
 
     private void validateRequest(CategoryRequest request) {

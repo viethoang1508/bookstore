@@ -27,6 +27,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Page<BookSummaryDTO> getBooks(BookSearchRequest request) {
+        log.info("Searching books, keyword={}, categoryId={}", request.getKeyword(), request.getCategoryId());
         Pageable pageable = request.toPageable();
 
         // Specification
@@ -56,7 +57,9 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public BookSummaryDTO getBookById(String id) {
+        log.info("Fetching catalog book by id={}", id);
         if (id == null || id.isEmpty()) {
+            log.warn("Fetch catalog book rejected because id is empty");
             throw new ApplicationException("Id is empty");
         }
 
@@ -74,10 +77,13 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Page<BookSummaryDTO> getBooksByCategory(String categoryId) {
+        log.info("Fetching books by category, categoryId={}", categoryId);
         if (categoryId == null || categoryId.isBlank()) {
+            log.warn("Fetch books by category rejected because categoryId is empty");
             throw new ApplicationException("Category id is empty");
         }
         if (!categoryRepository.existsById(categoryId)) {
+            log.warn("Fetch books by category rejected because category not found, categoryId={}", categoryId);
             throw new ApplicationException("Category not found");
         }
 
@@ -88,6 +94,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<String> getAllCategories() {
+        log.info("Fetching all categories");
         return categoryRepository.findAll()
         .stream()
         .map(Category::getName)

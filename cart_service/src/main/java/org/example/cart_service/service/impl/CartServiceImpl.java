@@ -32,6 +32,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartResponseDTO getCart(String userId) {
+        log.info("Fetching cart, userId={}", userId);
 
         Cart cart = getOrCreateCart(userId);
 
@@ -45,11 +46,13 @@ public class CartServiceImpl implements CartService {
         cartResponseDTO.setCartId(cart.getId());
         cartResponseDTO.setItems(itemDTOS);
 
+        log.info("Fetched cart successfully, userId={}, itemsCount={}", userId, itemDTOS.size());
         return cartResponseDTO;
     }
 
     @Override
     public void addItem(AddToCartRequest request, String userId) {
+        log.info("Adding item to cart, userId={}, bookId={}", userId, request != null ? request.getBookId() : null);
 
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
@@ -83,11 +86,13 @@ public class CartServiceImpl implements CartService {
         }
 
         cartItemRepository.save(cartItem);
+        log.info("Item added to cart successfully, userId={}, bookId={}", userId, request.getBookId());
 
     }
 
     @Override
     public void updateItemInCart(String userId, String bookId, UpdateQuantityRequest request) {
+        log.info("Updating cart item quantity, userId={}, bookId={}", userId, bookId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
         }
@@ -112,10 +117,12 @@ public class CartServiceImpl implements CartService {
 
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
+        log.info("Updated cart item quantity successfully, userId={}, bookId={}, quantity={}", userId, bookId, quantity);
     }
 
     @Override
     public void deleteItemFromCart(String userId, String bookId) {
+        log.info("Deleting item from cart, userId={}, bookId={}", userId, bookId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
         }
@@ -133,6 +140,7 @@ public class CartServiceImpl implements CartService {
         }else {
             cartItem.setIsDeleted(true);
             cartItemRepository.save(cartItem);
+            log.info("Deleted item from cart successfully, userId={}, bookId={}", userId, bookId);
         }
     }
 

@@ -35,6 +35,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
 
     @Override
     public ApplyPromotionResponse applyPromotion(ApplyPromotionRequest request) {
+        log.info("Applying promotion, code={}", request != null ? request.getCode() : null);
         // Validate request
         if (request == null || request.getCode() == null) {
             throw new RuntimeException("Invalid promotion request");
@@ -89,6 +90,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
 
     // TÍNH DISCOUNT THEO ORDER
     public ApplyPromotionResponse applyOrderPromotion(ApplyPromotionRequest request, Promotion promotion) {
+        log.info("Applying order-level promotion, promotionId={}", promotion.getId());
 
         BigDecimal maxDiscountAmount = promotion.getMaxDiscount();
 
@@ -123,6 +125,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
 
     // TÍNH DISCOUNT THEO TỪNG ITEMS
     public ApplyPromotionResponse applyItemsPromotion(ApplyPromotionRequest request, Promotion promotion) {
+        log.info("Applying item-level promotion, promotionId={}", promotion.getId());
 
         // Lấy danh sách items trong request
         List<PromotionItemRequest> promoItemsList = request.getItems();

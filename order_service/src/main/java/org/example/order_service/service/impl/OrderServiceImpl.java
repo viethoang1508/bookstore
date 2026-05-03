@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CheckoutPreviewResponse preview(PlaceOrderRequest request, String userId) {
+        log.info("Previewing order, userId={}", userId);
 
         // Validate
         if(request == null){
@@ -209,12 +210,14 @@ public class OrderServiceImpl implements OrderService {
         response.setFinalPrice(finalPrice);
         response.setPromotionCode(request.getPromotionCode());
 
+        log.info("Order preview generated, userId={}, itemsCount={}, total={}, final={}", userId, checkoutItems.size(), totalPrice, finalPrice);
         return response;
     }
 
 
     @Override
     public OrderResponse placeOrder(PlaceOrderRequest request, String userId) {
+        log.info("Placing order, userId={}", userId);
 
         // 1. Validate
         if(request == null){
@@ -423,6 +426,7 @@ public class OrderServiceImpl implements OrderService {
         orderCreatedEvent.setDeductRequests(deductRequests);
 
         orderEventProducer.publishOrderCreated(orderCreatedEvent);
+        log.info("Published order created event, orderId={}", order.getId());
 
         // 10. TẠO RESPONSE
         OrderResponse orderResponse = new OrderResponse();
@@ -445,12 +449,14 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
         orderResponse.setItems(itemDTOS);
 
+        log.info("Order placed successfully, orderId={}, userId={}", order.getId(), userId);
         return orderResponse;
     }
 
     @Override
     @Transactional
     public void handleStockDeductedEvent(OrderStockDeductedEvent event) {
+        log.info("Handling stock deducted event, orderId={}", event != null ? event.getOrderId() : null);
 
         // Kiểm orderId
         String orderId = event.getOrderId();
@@ -484,6 +490,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void handleStockFailedEvent(OrderStockFailedEvent event) {
+        log.info("Handling stock failed event, orderId={}", event != null ? event.getOrderId() : null);
         // Kiểm orderId
         String orderId = event.getOrderId();
 
@@ -515,6 +522,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponse> getAllOrders(String userId) {
+        log.info("Fetching all orders for userId={}", userId);
         if (userId == null) {
             throw new ApplicationException("Invalid user id");
         }
@@ -577,11 +585,13 @@ public class OrderServiceImpl implements OrderService {
             response.setItems(itemDTOS);
         }
 
+        log.info("Fetched orders for userId={}, totalOrders={}", userId, orderResponses.size());
         return orderResponses;
     }
 
     @Override
     public OrderResponse getOrderById(String orderId, String userId) {
+        log.info("Fetching order by id={}, userId={}", orderId, userId);
         if (orderId == null || userId == null) {
             throw new ApplicationException("Invalid input");
         }
@@ -613,6 +623,7 @@ public class OrderServiceImpl implements OrderService {
         res.setFinalAmount(order.getFinalAmount());
         res.setItems(itemDTOs);
 
+        log.info("Fetched order successfully, orderId={}", orderId);
         return res;
     }
 }

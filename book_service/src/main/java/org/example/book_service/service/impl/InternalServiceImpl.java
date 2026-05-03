@@ -35,6 +35,7 @@ public class InternalServiceImpl implements InternalService {
     @Override
     @Transactional
     public void updateStock(String bookId, UpdateStockRequest request) {
+        log.info("Updating stock, bookId={}, delta={}", bookId, request != null ? request.getDelta() : null);
         Book book = getBook(bookId);
         int delta = request.getDelta();
         int current = book.getStock() != null ? book.getStock() : 0;
@@ -44,6 +45,7 @@ public class InternalServiceImpl implements InternalService {
         }
         book.setStock(next);
         bookRepository.save(book);
+        log.info("Stock updated successfully, bookId={}, currentStock={}", bookId, next);
     }
 
     private Book getBook(String id) {
@@ -56,6 +58,7 @@ public class InternalServiceImpl implements InternalService {
 
     @Override
     public InternalBookDTO getBookForCart(String bookId) {
+        log.info("Fetching internal book info for cart, bookId={}", bookId);
 
         Book book = getBook(bookId);
 
@@ -66,6 +69,7 @@ public class InternalServiceImpl implements InternalService {
 
     @Override
     public Set<String> checkIfBooksExist(List<String> bookIds) {
+        log.info("Checking existing books, requestedSize={}", bookIds != null ? bookIds.size() : 0);
         return new HashSet<>(bookRepository.findExistingBookIds(bookIds));
     }
 
@@ -200,6 +204,7 @@ public class InternalServiceImpl implements InternalService {
 
     @Override
     public List<InternalBookDTO> getBooksInfo(List<String> bookIds) {
+        log.info("Fetching internal books info, requestedSize={}", bookIds != null ? bookIds.size() : 0);
         List<Book> books = bookRepository.findAllByIdIn(bookIds);
 
         return books.stream()

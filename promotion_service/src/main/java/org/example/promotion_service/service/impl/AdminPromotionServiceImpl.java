@@ -38,6 +38,7 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
     @Override
     public PromotionResponse create(CreatePromotionRequest createPromotionRequest) {
+        log.info("Creating promotion, code={}", createPromotionRequest != null ? createPromotionRequest.getCode() : null);
         if (createPromotionRequest == null) {
             throw new ApplicationException("Invalid request");
         }
@@ -52,11 +53,13 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
         Promotion saved = promotionRepository.save(promotion);
 
+        log.info("Promotion created successfully, id={}", saved.getId());
         return promotionMapper.toPromotionResponse(saved);
     }
 
     @Override
     public PromotionResponse update(UpdatePromotionRequest updatePromotionRequest, String id) {
+        log.info("Updating promotion, id={}", id);
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new ApplicationException("Promotion with id " + id + " not found"));
 
@@ -74,11 +77,13 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
         Promotion saved = promotionRepository.save(promotion);
 
+        log.info("Promotion updated successfully, id={}", saved.getId());
         return promotionMapper.toPromotionResponse(saved);
     }
 
     @Override
     public Void delete(String id) {
+        log.info("Deleting promotion, id={}", id);
         if (id == null || id.isBlank()) {
             throw new ApplicationException("Invalid request");
         }
@@ -89,11 +94,13 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
         promotion.setDeleted(true);
 
         promotionRepository.save(promotion);
+        log.info("Promotion soft deleted successfully, id={}", id);
         return null;
     }
 
     @Override
     public List<PromotionResponse> getAll() {
+        log.info("Fetching all promotions");
         return promotionRepository.findAll()
                 .stream()
                 //.map(p -> promotionMapper.toPromotionResponse(p))
@@ -103,6 +110,7 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
     @Override
     public Void assignBooks(String promotionId, AssignBooksRequest assignBooksRequest) {
+        log.info("Assigning books to promotion, promotionId={}", promotionId);
 
         // Validate input
         if (promotionId == null || promotionId.isBlank()) {
@@ -146,6 +154,7 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
         inputBookIds.removeAll(existedPromotionBookIds);
 
         if (inputBookIds.isEmpty()) {
+            log.info("No new books to assign, promotionId={}", promotionId);
             return null;
         }
         // Vừa tạo promotion-book vừa check tồn tại
@@ -161,12 +170,14 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
         // Lưu
         promotionBookRepository.saveAll(newPromotionBooks);
+        log.info("Assigned books to promotion successfully, promotionId={}, assignedCount={}", promotionId, newPromotionBooks.size());
 
         return null;
     }
 
     @Override
     public Void changeStatus(String promotionId, String status) {
+        log.info("Changing promotion status, promotionId={}, status={}", promotionId, status);
 
         if (promotionId == null || promotionId.isBlank() || status == null || status.isBlank()) {
             throw new ApplicationException("Invalid request");
@@ -184,11 +195,13 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
 
         // Nếu status giống nhau thì không cần update
         if (promotion.getStatus() == newStatus) {
+            log.info("Promotion already has requested status, promotionId={}, status={}", promotionId, status);
             return null;
         }
 
         promotion.setStatus(newStatus);
         promotionRepository.save(promotion);
+        log.info("Promotion status changed successfully, promotionId={}, newStatus={}", promotionId, newStatus);
 
         return null;
     }
