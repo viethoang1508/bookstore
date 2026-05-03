@@ -2,7 +2,7 @@ package org.example.promotion_service.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.promotion_service.dto.BaseResponse;
+import org.example.promotion_service.dto.response.BaseResponse;
 import org.example.promotion_service.dto.request.AssignBooksRequest;
 import org.example.promotion_service.dto.request.CreatePromotionRequest;
 import org.example.promotion_service.dto.request.UpdatePromotionRequest;

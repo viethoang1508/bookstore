@@ -1,4 +1,4 @@
-package org.example.promotion_service.dto;
+package org.example.promotion_service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

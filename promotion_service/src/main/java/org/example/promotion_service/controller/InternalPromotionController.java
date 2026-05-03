@@ -1,7 +1,7 @@
 package org.example.promotion_service.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.promotion_service.dto.BaseResponse;
+import org.example.promotion_service.dto.response.BaseResponse;
 import org.example.promotion_service.dto.request.ApplyPromotionRequest;
 import org.example.promotion_service.dto.response.ApplyPromotionResponse;
 import org.example.promotion_service.service.InternalPromotionService;
