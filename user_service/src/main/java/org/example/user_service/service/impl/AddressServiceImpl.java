@@ -50,10 +50,10 @@ public class AddressServiceImpl implements AddressService {
             throw new ApplicationException("request cannot be null");
         }
 
-        Address address = new  Address();
+        Address address = new Address();
 
         // Nếu là default -> clear default cũ
-        if(request.getIsDefault().equals(true)) {
+        if (Boolean.TRUE.equals(request.getIsDefault())) {
             clearDefaultSAddress(userId);
             address.setIsDefault(true);
         } else {
@@ -61,15 +61,19 @@ public class AddressServiceImpl implements AddressService {
             boolean isDefault = addressRepository
                     .findByUserIdAndIsDefaultTrueAndDeletedFalse(userId)
                     .size() > 0;
-            if(!isDefault) {
+            if (!isDefault) {
                 address.setIsDefault(true);
             }
         }
 
-        address = addressMapper.toEntity(request);
+        Address createdAddress = addressMapper.toEntity(request);
+        createdAddress.setUserId(userId);
+        createdAddress.setIsDefault(address.getIsDefault());
 
-        AddressResponse response = addressMapper.toResponse(addressRepository.save(address));
+        AddressResponse response = addressMapper.toResponse(addressRepository.save(createdAddress));
+
         log.info("Address created successfully, userId={}", userId);
+
         return response;
     }
 
@@ -89,21 +93,24 @@ public class AddressServiceImpl implements AddressService {
         }
 
         Address address = getOwnedAddress(userId, id);
-        if(request.getIsDefault().equals(true)) {
+        if(Boolean.TRUE.equals(address.getIsDefault())) {
             clearDefaultSAddress(userId);
             address.setIsDefault(true);
         }
 
-        address = addressMapper.updateAddress(request);
+        addressMapper.updateAddress(request, address);
 
         AddressResponse response = addressMapper.toResponse(addressRepository.save(address));
+
         log.info("Address updated successfully, userId={}, addressId={}", userId, id);
+
         return response;
     }
 
     @Override
     public void delete(String userId, String id) {
         log.info("Deleting address, userId={}, addressId={}", userId, id);
+
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("userId cannot be null or blank");
         }
@@ -113,7 +120,7 @@ public class AddressServiceImpl implements AddressService {
         }
 
         Address address = getOwnedAddress(userId, id);
-        if(address.getIsDefault().equals(true)) {
+        if (Boolean.TRUE.equals(address.getIsDefault())) {
             List<Address> addressList = addressRepository.findByUserIdAndDeletedFalse(userId);
 
             addressList.stream()
@@ -123,6 +130,9 @@ public class AddressServiceImpl implements AddressService {
         }
 
         address.setIsDeleted(true);
+
+        addressRepository.save(address);
+
         log.info("Address marked deleted successfully, userId={}, addressId={}", userId, id);
     }
 
@@ -142,6 +152,9 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.clearDefaultByUserId(userId);
 
         address.setIsDefault(true);
+
+        addressRepository.save(address);
+
         log.info("Set default address successfully, userId={}, addressId={}", userId, id);
     }
 
@@ -151,7 +164,7 @@ public class AddressServiceImpl implements AddressService {
 
         addressList.forEach(address -> {
             address.setIsDefault(false);
-        })
+        });
     }
 
     private Address getOwnedAddress(String userId, String id) {

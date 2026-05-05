@@ -28,15 +28,17 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> {throw new ApplicationException("Cannot find user with id " + {userId});});
+                .orElseThrow(() -> new ApplicationException("Cannot find user with id " + userId));
 
         log.info("Fetched user profile successfully, userId={}", userId);
+
         return userMapper.toResponse(user);
     }
 
     @Override
     public UserResponse updateProfile(String userId, UpdateProfileRequest request) {
         log.info("Updating user profile, userId={}", userId);
+
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
         }
@@ -46,11 +48,14 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> {throw new ApplicationException("Cannot find user with id " + {userId});});
+                .orElseThrow(() -> new ApplicationException("Cannot find user with id " + userId));
 
-        user = userMapper.updateUser(request);
+        userMapper.updateUser(request);
+
+        user = userRepository.save(user);
 
         log.info("Updated user profile successfully, userId={}", userId);
+
         return userMapper.toResponse(user);
     }
 
@@ -63,7 +68,10 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.toEntity(request);
 
+        user = userRepository.save(user);
+
         log.info("Created user profile successfully");
+        
         return userMapper.toResponse(user);
     }
 }
