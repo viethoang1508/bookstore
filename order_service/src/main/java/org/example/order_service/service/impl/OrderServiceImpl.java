@@ -400,6 +400,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             OrderItem item = new OrderItem();
+            item.setOrderId(order.getId());
             item.setBookId(orderItem.getBookId());
             item.setQuantity(quantity);
             item.setPrice(discountedPrice);
@@ -513,7 +514,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // Update
-        order.setStatus(OrderStatus.COMPLETED);
+        order.setStatus(OrderStatus.CANCELLED);
 
         orderRepository.save(order);
 
@@ -583,6 +584,7 @@ public class OrderServiceImpl implements OrderService {
                     .toList();
 
             response.setItems(itemDTOS);
+            orderResponses.add(response);
         }
 
         log.info("Fetched orders for userId={}, totalOrders={}", userId, orderResponses.size());
@@ -627,4 +629,3 @@ public class OrderServiceImpl implements OrderService {
         return res;
     }
 }
-

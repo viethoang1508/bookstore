@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("internal/promotions")
+@RequestMapping("/internal/promotions")
 public class InternalPromotionController {
 
     private final InternalPromotionService internalPromotionService;

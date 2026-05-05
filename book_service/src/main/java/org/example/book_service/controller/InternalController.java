@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("internal")
+@RequestMapping("/internal")
 @RequiredArgsConstructor
 public class InternalController {
 
