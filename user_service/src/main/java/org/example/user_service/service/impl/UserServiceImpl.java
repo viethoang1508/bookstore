@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
 
         log.info("Created user profile successfully");
-        
+
         return userMapper.toResponse(user);
     }
 }

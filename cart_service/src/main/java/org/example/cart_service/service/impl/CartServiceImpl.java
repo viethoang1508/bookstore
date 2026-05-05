@@ -63,6 +63,14 @@ public class CartServiceImpl implements CartService {
             throw new ApplicationException("Invalid request");
         }
 
+        if (request.getBookId() == null || request.getBookId().isBlank()) {
+            throw new ApplicationException("Invalid book id");
+        }
+
+        if (request.getQuantity() == null || request.getQuantity() <= 0) {
+            throw new ApplicationException("Invalid quantity");
+        }
+
         Cart cart = getOrCreateCart(userId);
 
         CartItem cartItem = cartItemRepository.findByCartIdAndBookId(cart.getId(), request.getBookId());
@@ -71,6 +79,10 @@ public class CartServiceImpl implements CartService {
 
             // Gọi sang Book Service
             BookResponseDTO book = bookClient.getBook(request.getBookId());
+
+            if (book == null) {
+                throw new ApplicationException("Book not found with id " + request.getBookId());
+            }
 
             cartItem = new CartItem();
             cartItem.setCartId(cart.getId());
@@ -107,6 +119,10 @@ public class CartServiceImpl implements CartService {
         }
 
         Integer quantity = request.getQuantity();
+
+        if (quantity == null || quantity <= 0) {
+            throw new ApplicationException("Invalid quantity");
+        }
 
         Cart cart = getOrCreateCart(userId);
 
@@ -168,7 +184,7 @@ public class CartServiceImpl implements CartService {
                     Cart newCart = new Cart();
                     newCart.setUserId(userId);
 
-                    return cartItemRepository.save(newCart);
+                    return cartRepository.save(newCart);
                 });
         return cart;
     }
