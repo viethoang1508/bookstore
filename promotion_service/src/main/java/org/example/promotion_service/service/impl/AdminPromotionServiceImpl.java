@@ -43,6 +43,10 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
             throw new ApplicationException("Invalid request");
         }
 
+        if (createPromotionRequest.getStartTime() == null || createPromotionRequest.getEndTime() == null) {
+            throw new ApplicationException("Start time and end time are required");
+        }
+
         if (createPromotionRequest.getStartTime().isAfter(createPromotionRequest.getEndTime())) {
             throw new ApplicationException("Start time must be before end time");
         }
@@ -117,8 +121,8 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
             throw new ApplicationException("Invalid request");
         }
 
-        if (assignBooksRequest == null) {
-            throw new ApplicationException("Invalid request");
+        if (assignBooksRequest == null || assignBooksRequest.getBookIds() == null || assignBooksRequest.getBookIds().isEmpty()) {
+            throw new ApplicationException("Book ids are required");
         }
 
         // Kiểm tra promotion

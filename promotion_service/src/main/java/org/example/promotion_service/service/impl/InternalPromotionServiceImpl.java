@@ -38,7 +38,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
         log.info("Applying promotion, code={}", request != null ? request.getCode() : null);
         // Validate request
         if (request == null || request.getCode() == null) {
-            throw new RuntimeException("Invalid promotion request");
+            throw new ApplicationException("Invalid promotion request");
         }
 
         // Tìm promotion
@@ -46,19 +46,17 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
                 .orElseThrow(() -> new ApplicationException("Promotion with code " + request.getCode() + " not found"));
 
         // Validate
-        validatePromotion(promotion, request);
+        validatePromotion(request, promotion);
 
         // Chia trường hợp theo scope
         String scope = promotion.getScope();
-        if (scope == "ITEM") {
-            ApplyPromotionResponse response = applyOrderPromotion(request, promotion);
-        } else if (scope == "ORDER") {
-            ApplyPromotionResponse response = applyItemsPromotion(request, promotion);
-        } else {
-            throw new ApplicationException("Invalid scope " + scope);
+        if ("ORDER".equalsIgnoreCase(scope)) {
+            return applyOrderPromotion(request, promotion);
+        } else if ("ITEM".equalsIgnoreCase(scope)) {
+            return applyItemsPromotion(request, promotion);
         }
 
-
+        throw new ApplicationException("Invalid scope " + scope);
     }
 
     // VALIDATE PROMOTION
@@ -84,7 +82,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
         if (promotion.getMinOrderValue() != null &&
                 request.getTotalAmount().compareTo(promotion.getMinOrderValue()) < 0) {
 
-            throw new RuntimeException("Order does not meet minimum amount");
+            throw new ApplicationException("Order does not meet minimum amount");
         }
     }
 
@@ -98,21 +96,26 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
 
         if (promotion.getType().equals(PromotionType.PERCENT)) {
             BigDecimal value = promotion.getValue();
-            BigDecimal discountAmount = value.divide(100).multiply(request.getTotalAmount());
-            if (maxDiscountAmount != null &&
+
+            discountAmount = value
+                    .multiply(request.getTotalAmount())
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);            if (maxDiscountAmount != null &&
                     maxDiscountAmount.compareTo(discountAmount) < 0) {
                 discountAmount = maxDiscountAmount;
             }
+
         } else if (promotion.getType().equals(PromotionType.FIXED)) {
+
             BigDecimal value = promotion.getValue();
-            BigDecimal discountAmount = value;
+            discountAmount = value;
+
             if (maxDiscountAmount != null &&
                     maxDiscountAmount.compareTo(discountAmount) < 0) {
                 discountAmount = maxDiscountAmount;
             }
         }
 
-        BigDecimal finalAmount = request.getTotalAmount() - discountAmount;
+        BigDecimal finalAmount = request.getTotalAmount().subtract(discountAmount);
 
         ApplyPromotionResponse response = new ApplyPromotionResponse();
         response.setFinalAmount(finalAmount);
@@ -131,7 +134,7 @@ public class InternalPromotionServiceImpl implements InternalPromotionService {
         List<PromotionItemRequest> promoItemsList = request.getItems();
 
         if (promoItemsList == null || promoItemsList.isEmpty()) {
-            throw new RuntimeException("Items cannot be empty");
+            throw new ApplicationException("Items cannot be empty");
         }
 
         // Lấy những sách được giảm theo promotion

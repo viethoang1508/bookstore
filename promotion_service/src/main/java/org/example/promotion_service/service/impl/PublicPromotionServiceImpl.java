@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -21,7 +20,6 @@ import java.util.Locale;
 public class PublicPromotionServiceImpl implements PublicPromotionService {
 
     private final PromotionRepository promotionRepository;
-    private final PublicPromotionService publicPromotionService;
     private final PromotionMapper promotionMapper;
 
     @Override
