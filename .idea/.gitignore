@@ -1,8 +1,43 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+# ========================
+# Maven / Spring Boot
+# ========================
+target/
+build/
+*.jar
+*.war
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# IDE
+# ========================
+.idea/
+.vscode/
+*.iml
+
+# ========================
+# OS
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Env & config
+# ========================
+.env
+application-local.yml
+application-dev.yml
+
+# ========================
+# Docker
+# ========================
+docker-data/
+
+# ========================
+# Node (nếu có frontend sau này)
+# ========================
+node_modules/

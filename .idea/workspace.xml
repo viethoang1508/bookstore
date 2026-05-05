@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4be1b9dd-ea43-46cd-a487-724e730b2c5c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api_gateway/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/src/main/java/org/example/api_gateway/ApiGatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/src/test/java/org/example/api_gateway/ApiGatewayApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/main/java/org/example/auth_service/AuthServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/main/java/org/example/auth_service/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/main/java/org/example/auth_service/dto/BaseResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/main/java/org/example/auth_service/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth_service/src/test/java/org/example/auth_service/AuthServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/BookServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/controller/AdminBookController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/controller/AdminCategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/controller/CatalogController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/controller/InternalController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/dto/BaseResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/dto/request/BookSearchRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/dto/request/DeductStockRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/dto/response/BookSummaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/dto/response/InternalBookDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/entity/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/entity/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/exception/ApplicationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/consumer/OrderCreatedConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/event/OrderCreatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/event/OrderStockDeductedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/event/OrderStockFailedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/event/StockErrorItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/kafka/event/StockFailReason.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/mapper/BookMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/repository/BookRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/service/CatalogService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/service/impl/CatalogServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/java/org/example/book_service/specification/BookSpecification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/book_service/src/test/java/org/example/book_service/BookServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/CartServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/client/BookClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/client/impl/BookClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/controller/CartController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/BaseResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/request/AddToCartRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/request/UpdateQuantityRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/response/BookResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/response/CartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/dto/response/CartResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/entity/Cart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/entity/CartItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/exception/ApplicationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/mapper/CartItemMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/repository/CartItemRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/repository/CartRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/security/SecurityUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/service/CartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/java/org/example/cart_service/service/impl/CartServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cart_service/src/test/java/org/example/cart_service/CartServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/src/main/java/org/example/discovery_service/DiscoveryServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery_Service/src/test/java/org/example/discovery_service/DiscoveryServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/OrderServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/client/BookClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/client/impl/BookClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/client/impl/PromotionClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/config/WebClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/controller/AdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/controller/OrderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/BaseResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/request/ApplyPromotionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/request/DeductStockRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/request/OrderItemRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/request/PlaceOrderRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/request/PromotionItemRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/ApplyPromotionResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/BookDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/CheckoutItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/CheckoutPreviewResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/DiscountDetail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/OrderItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/dto/response/OrderResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/entity/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/entity/OrderItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/entity/OrderStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/exception/ApplicationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/kafka/consumer/OrderStockFailConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/kafka/consumer/OrderStockSuccessConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/kafka/event/OrderCreatedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/kafka/event/OrderStockDeductedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/kafka/event/OrderStockFailedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/repository/OrderItemRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/repository/OrderRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/service/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/java/org/example/order_service/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order_service/src/test/java/org/example/order_service/OrderServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/PromotionServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/client/BookClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/client/impl/BookClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/controller/AdminPromotionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/controller/InternalPromotionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/controller/PublicPromotionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/BaseResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/request/ApplyPromotionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/request/AssignBooksRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/request/CreatePromotionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/request/PromotionItemRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/request/UpdatePromotionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/response/ApplyPromotionResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/response/DiscountDetail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/dto/response/PromotionResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/entity/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/entity/Promotion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/entity/PromotionBook.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/entity/PromotionStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/entity/PromotionType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/exception/ApplicationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/mapper/PromotionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/repository/PromotionBookRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/repository/PromotionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/AdminPromotionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/InternalPromotionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/PublicPromotionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/impl/AdminPromotionServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/impl/InternalPromotionServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/java/org/example/promotion_service/service/impl/PublicPromotionServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promotion_service/src/test/java/org/example/promotion_service/PromotionServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/src/main/java/org/example/user_service/UserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/src/test/java/org/example/user_service/UserServiceApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/api_gateway" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:/xampp/php/php.exe" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="3D7N1ha83mu8zFGWU5t969daKYX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/dev/bookstore",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4be1b9dd-ea43-46cd-a487-724e730b2c5c" name="Changes" comment="" />
+      <created>1777628936140</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777628936140</updated>
+      <workItem from="1777628937840" duration="540000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
