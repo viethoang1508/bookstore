@@ -3,6 +3,7 @@ package org.example.cart_service.service;
 import org.example.cart_service.dto.request.AddToCartRequest;
 import org.example.cart_service.dto.request.UpdateQuantityRequest;
 import org.example.cart_service.dto.response.CartResponseDTO;
+import org.example.cart_service.kafka.event.UserRegisteredEvent;
 
 public interface CartService {
     CartResponseDTO getCart(String userId);
@@ -13,5 +14,5 @@ public interface CartService {
 
     void deleteItemFromCart(String userId, String bookId);
 
-//    void clearCart(String userId);
+    void handleUserRegisteredEvent(UserRegisteredEvent event);
 }

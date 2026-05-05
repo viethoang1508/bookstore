@@ -11,6 +11,8 @@ import org.example.auth_service.dto.request.LoginRequest;
 import org.example.auth_service.dto.request.RegisterRequest;
 import org.example.auth_service.dto.response.TokenResponse;
 import org.example.auth_service.exception.ApplicationException;
+import org.example.auth_service.kafka.event.UserRegisteredEvent;
+import org.example.auth_service.kafka.producer.AuthEventProducer;
 import org.example.auth_service.service.AuthService;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.ClientRepresentation;
@@ -32,6 +34,8 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
 
     private final Keycloak  keycloak;
+    private final AuthEventProducer producer;
+    private static final String DEFAULT_CUSTOMER_ROLE = "USER";
 
     @Value("${keycloak.auth-server-url}")
     private String authServerUrl;
@@ -81,7 +85,18 @@ public class AuthServiceImpl implements AuthService {
             userId = location.substring(location.lastIndexOf("/") + 1);
 
             // Gán role khách hàng cho user mới
-            assignClientRole(userId, DEFAUL_CUSTOMER_ROLE);
+            assignClientRole(userId, DEFAULT_CUSTOMER_ROLE);
+
+            // Bắn event
+            UserRegisteredEvent event = new UserRegisteredEvent();
+            event.setUserId(userId);
+            event.setUserName(user.getUsername());
+            event.setEmail(user.getEmail());
+            event.setFullName(request.getFullName());
+            event.setPhone(request.getPhone());
+
+            producer.publishUserRegistered(event);
+
             return userId;
         } catch (Exception e) {
             // Nếu lỗi xảy ra sau khi đã tạo user, rollback để tránh dữ liệu mồ côi

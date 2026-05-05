@@ -2,6 +2,7 @@ package org.example.user_service.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.user_service.dto.request.CreateUserRequest;
 import org.example.user_service.dto.request.UpdateProfileRequest;
 import org.example.user_service.dto.response.UserResponse;
 import org.example.user_service.entity.User;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse createProfile(UpdateProfileRequest request) {
+    public UserResponse createProfile(CreateUserRequest request) {
         log.info("Creating user profile");
         if (request == null) {
             throw new ApplicationException("Invalid request");

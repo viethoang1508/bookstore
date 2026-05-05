@@ -11,6 +11,7 @@ import org.example.cart_service.dto.response.CartResponseDTO;
 import org.example.cart_service.entity.Cart;
 import org.example.cart_service.entity.CartItem;
 import org.example.cart_service.exception.ApplicationException;
+import org.example.cart_service.kafka.event.UserRegisteredEvent;
 import org.example.cart_service.mapper.CartItemMapper;
 import org.example.cart_service.repository.CartItemRepository;
 import org.example.cart_service.repository.CartRepository;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 public class CartServiceImpl implements CartService {
 
     private final CartItemRepository cartItemRepository;
-    private final CartRepository cartResponsitory;
+    private final CartRepository cartRepository;
     private final CartItemMapper cartItemMapper;
     private final BookClient bookClient;
 
@@ -51,7 +52,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addItem(AddToCartRequest request, String userId) {
+    public void addItemToCart(AddToCartRequest request, String userId) {
         log.info("Adding item to cart, userId={}, bookId={}", userId, request != null ? request.getBookId() : null);
 
         if (userId == null || userId.isBlank()) {
@@ -144,6 +145,17 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Override
+    public void handleUserRegisteredEvent(UserRegisteredEvent event) {
+        if (cartRepository.findByUserId(event.getUserId()).isPresent()) {
+            log.info("Cart already exists for userId={}", event.getUserId());
+            return;
+        }
+
+        Cart cart = getOrCreateCart(event.getUserId());
+        log.info("Created cart from event for userId={}", event.getUserId());
+    }
+
     // Hàm private
 
     private Cart getOrCreateCart(String userId) {
@@ -151,7 +163,7 @@ public class CartServiceImpl implements CartService {
             throw new ApplicationException("Invalid user id");
         }
 
-        Cart cart = cartResponsitory.findByUserId(userId)
+        Cart cart = cartRepository.findByUserId(userId)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
                     newCart.setUserId(userId);
