@@ -4,10 +4,10 @@ spring:
 
 keycloak:
   auth-server-url: http://localhost:8180
-  realm: fill_later
-  resource: fill_later
+  realm: bookstore-realm
+  resource: auth-service
   credentials:
-    secret: 'fill_later'
+    secret: 'UyOgcuXXvbYO11f3KzFcrwaRMh9gRo3F'
 eureka:
   instance:
     prefer-ip-address: true
