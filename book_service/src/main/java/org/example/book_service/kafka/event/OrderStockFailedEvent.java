@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class OrderStockFailedEvent {
-    private String orderId
+    private String orderId;
     private String reason;
     private List<StockFailureItem> failedItems;
 }

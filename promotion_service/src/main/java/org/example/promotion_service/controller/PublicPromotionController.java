@@ -28,7 +28,7 @@ public class PublicPromotionController {
 
     // Lấy promotion theo code
     @GetMapping("/{code}")
-    public ResponseEntity<BaseEntity<PromotionResponse> getByCode(@PathVariable String promotionCode) {
+    public ResponseEntity<BaseEntity<PromotionResponse>> getByCode(@PathVariable String promotionCode) {
         return ResponseEntity.ok(new BaseResponse<>(publicPromotionService.getByCode(promotionCode), "Get promotion successfully"));
     }
 }

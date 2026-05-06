@@ -25,7 +25,7 @@ public class PromotionClientImpl implements PromotionClient {
                         .bodyValue(request)
                         .retrieve()
                         .bodyToMono(
-                                new ParameterizedTypeReference<BaseResponse<ApplyPromotionResponse>(){}
+                                new ParameterizedTypeReference<BaseResponse<ApplyPromotionResponse>>(){}
                         )
                         .block();
         if (response == null || response.getData() == null) {

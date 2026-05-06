@@ -1,7 +1,7 @@
 package org.example.order_service.kafka.event;
 
 import lombok.Data;
-import org.example.book_service.dto.request.DeductStockRequest;
+import org.example.order_service.dto.request.DeductStockRequest;
 
 import java.util.List;
 

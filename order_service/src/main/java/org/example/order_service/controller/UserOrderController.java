@@ -23,7 +23,7 @@ public class UserOrderController {
 
     // Preview order
     @PostMapping("/checkout-preview")
-    public ResponseEntity<BaseEntity<CheckoutPreviewResponse>> preview (
+    public ResponseEntity<BaseResponse<CheckoutPreviewResponse>> preview (
             @RequestBody @Valid PlaceOrderRequest request,
             JwtAuthenticationToken jwtAuthenticationToken
     ){
@@ -33,7 +33,7 @@ public class UserOrderController {
 
     // Place order
     @PostMapping("/place")
-    public ResponseEntity<BaseEntity<OrderResponse>> placeOrder (
+    public ResponseEntity<BaseResponse<OrderResponse>> placeOrder (
             @RequestBody @Valid PlaceOrderRequest request,
             JwtAuthenticationToken jwtAuthenticationToken
     ){

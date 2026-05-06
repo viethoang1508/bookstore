@@ -93,6 +93,12 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.24.3</version>
         </dependency>
+
+        <!-- Retry -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
