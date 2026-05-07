@@ -5,6 +5,7 @@ import org.example.order_service.dto.request.ApplyPromotionRequest;
 import org.example.order_service.dto.response.ApplyPromotionResponse;
 import org.example.order_service.dto.response.BaseResponse;
 import org.example.order_service.security.SecurityUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
