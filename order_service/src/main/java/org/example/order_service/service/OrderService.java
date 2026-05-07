@@ -15,5 +15,7 @@ public interface OrderService {
     void handleStockFailedEvent(OrderStockFailedEvent event);
     List<OrderResponse> getAllOrders(String userId);
     OrderResponse getOrderById(String orderId, String userId);
+    List<OrderResponse> getAllOrdersAdmin();
+    void updateStatus(String orderId, String status);
 
 }

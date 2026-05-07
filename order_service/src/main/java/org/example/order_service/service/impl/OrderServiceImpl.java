@@ -626,4 +626,77 @@ public class OrderServiceImpl implements OrderService {
         log.info("Fetched order successfully, orderId={}", orderId);
         return res;
     }
+
+    @Override
+    public List<OrderResponse> getAllOrdersAdmin() {
+        log.info("Fetching all orders for admin");
+
+        List<Order> orders = orderRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
+
+        if (orders.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<String> orderIds = orders.stream().map(Order::getId).toList();
+        List<OrderItem> orderItems = orderItemRepository.findByOrderIdIn(orderIds);
+
+        Map<String, List<OrderItem>> itemsMap = new HashMap<>();
+        for (OrderItem item : orderItems) {
+            itemsMap.computeIfAbsent(item.getOrderId(), k -> new ArrayList<>()).add(item);
+        }
+
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        for (Order order : orders) {
+            OrderResponse response = new OrderResponse();
+            response.setOrderId(order.getId());
+            response.setDiscountAmount(order.getDiscountAmount());
+            response.setTotalAmount(order.getTotalAmount());
+            response.setFinalAmount(order.getFinalAmount());
+            response.setStatus(order.getStatus().name());
+
+            List<OrderItemDTO> itemDTOS = itemsMap.getOrDefault(order.getId(), new ArrayList<>())
+                    .stream()
+                    .map(i -> {
+                        OrderItemDTO dto = new OrderItemDTO();
+                        dto.setBookId(i.getBookId());
+                        dto.setBookName(i.getBookName());
+                        dto.setQuantity(i.getQuantity());
+                        dto.setPrice(i.getPrice());
+                        dto.setTotalPrice(i.getTotalPrice());
+                        return dto;
+                    })
+                    .toList();
+
+            response.setItems(itemDTOS);
+            orderResponses.add(response);
+        }
+
+        log.info("Fetched all orders for admin, totalOrders={}", orderResponses.size());
+        return orderResponses;
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(String orderId, String status) {
+        log.info("Updating order status, orderId={}, status={}", orderId, status);
+
+        if (orderId == null || orderId.isBlank() || status == null || status.isBlank()) {
+            throw new ApplicationException("Invalid input");
+        }
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ApplicationException("Order not found"));
+
+        OrderStatus newStatus;
+        try {
+            newStatus = OrderStatus.valueOf(status.trim().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new ApplicationException("Invalid status");
+        }
+
+        order.setStatus(newStatus);
+        orderRepository.save(order);
+
+        log.info("Updated order status successfully, orderId={}, newStatus={}", orderId, newStatus);
+    }
 }

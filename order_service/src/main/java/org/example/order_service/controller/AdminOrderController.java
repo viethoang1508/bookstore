@@ -19,9 +19,7 @@ public class AdminOrderController {
     // Lấy toàn bộ orders
     @GetMapping
     public ResponseEntity<BaseResponse<List<OrderResponse>>> getAllOrders(){
-        return ResponseEntity.ok(
-                new BaseResponse<>(orderService.getAllOrdersAdmin())
-        );
+        return ResponseEntity.ok(new BaseResponse<>(orderService.getAllOrdersAdmin(), "Gett all orders successfully"));
     }
 
     // Update status
