@@ -465,7 +465,6 @@ public class OrderServiceImpl implements OrderService {
         if (orderId == null || orderId.isBlank()) {
             log.error("Order ID is null or empty");
             throw new ApplicationException("orderId is null or empty");
-            return;
         }
 
         // Kiểm tra order và status
@@ -498,7 +497,6 @@ public class OrderServiceImpl implements OrderService {
         if (orderId == null || orderId.isBlank()) {
             log.error("Order ID is null or empty");
             throw new ApplicationException("orderId is null or empty");
-            return;
         }
 
         // Kiểm tra order và status
@@ -565,7 +563,7 @@ public class OrderServiceImpl implements OrderService {
             response.setDiscountAmount(order.getDiscountAmount());
             response.setTotalAmount(order.getTotalAmount());
             response.setFinalAmount(order.getFinalAmount());
-            response.setStatus(order.getStatus());
+            response.setStatus(order.getStatus().name());
 
             // Tạo order item
             List<OrderItem> items = itemsMap.getOrDefault(order.getId(), new ArrayList<>());

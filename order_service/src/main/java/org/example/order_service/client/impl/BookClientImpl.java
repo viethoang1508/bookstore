@@ -8,13 +8,14 @@ import org.example.order_service.repository.OrderItemRepository;
 import org.example.order_service.security.SecurityUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class BookClientImpl implements BookClient {
 

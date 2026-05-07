@@ -9,5 +9,5 @@ public class DeductStockRequest {
     private String bookId;
 
     @NotBlank(message = "quantity must not be blank")
-    private String quantity;
+    private Integer quantity;
 }

@@ -1,5 +1,6 @@
 package org.example.order_service.client.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.order_service.client.PromotionClient;
 import org.example.order_service.dto.request.ApplyPromotionRequest;
 import org.example.order_service.dto.response.ApplyPromotionResponse;
@@ -7,8 +8,11 @@ import org.example.order_service.dto.response.BaseResponse;
 import org.example.order_service.security.SecurityUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Component
+@RequiredArgsConstructor
 public class PromotionClientImpl implements PromotionClient {
 
     private final WebClient.Builder webClientBuilder;
