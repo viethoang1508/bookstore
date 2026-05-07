@@ -32,7 +32,7 @@ public class AdminBookServiceImpl implements AdminBookService {
         Book book = new Book();
         applyCreateFields(book, request);
         Book savedBook = bookRepository.save(book);
-        log.info("Book created successfully, id={}", savedBook.getBookId());
+        log.info("Book created successfully, id={}", savedBook.getId());
         return savedBook;
     }
 

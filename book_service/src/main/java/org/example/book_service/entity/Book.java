@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class Book extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String bookId;
+    private String id;
 
     @Column(unique = true)
     private String isbn;

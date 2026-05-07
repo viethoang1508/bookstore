@@ -125,7 +125,7 @@ public class InternalServiceImpl implements InternalService {
             List<Book> books = bookRepository.findAllByIdIn(productIds);
 
             Map<String, Book> bookMap = books.stream()
-                    .collect(Collectors.toMap(Book::getBookId, book -> book));
+                    .collect(Collectors.toMap(Book::getId, book -> book));
 
             // Validate và trừ stock
             for (String bookId : productIds) {

@@ -47,7 +47,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     private BookSummaryDTO toSummaryDTO(Book book) {
         BookSummaryDTO bookSummaryDTO = new BookSummaryDTO();
-        bookSummaryDTO.setId(book.getBookId());
+        bookSummaryDTO.setId(book.getId());
         bookSummaryDTO.setTitle(book.getTitle());
         bookSummaryDTO.setSlug(book.getSlug());
         bookSummaryDTO.setPrice(book.getPrice());
@@ -66,7 +66,7 @@ public class CatalogServiceImpl implements CatalogService {
         Book book = bookRepository.findById(id).orElseThrow(() -> new ApplicationException("Book not found"));
 
         BookSummaryDTO bookSummaryDTO = new BookSummaryDTO();
-        bookSummaryDTO.setId(book.getBookId());
+        bookSummaryDTO.setId(book.getId());
         bookSummaryDTO.setTitle(book.getTitle());
         bookSummaryDTO.setSlug(book.getSlug());
         bookSummaryDTO.setPrice(book.getPrice());
