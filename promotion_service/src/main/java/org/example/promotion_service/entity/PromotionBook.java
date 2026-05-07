@@ -1,8 +1,6 @@
 package org.example.promotion_service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,9 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "promotion_books")
 public class PromotionBook {
-    @Id
-    private String promotionId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+    
+    private String promotionId;
+
     private String bookId;
 }

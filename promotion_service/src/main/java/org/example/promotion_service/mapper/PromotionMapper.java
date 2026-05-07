@@ -13,7 +13,9 @@ public interface PromotionMapper {
 
     // create
     @Mapping(target = "type", expression = "java(mapType(request.getType()))")
-    @Mapping(target = "status", expression = "java(PromotionStatus.ACTIVE)")
+//    @Mapping(target = "status", expression = "java(PromotionStatus.ACTIVE)")
+    @Mapping(target = "status", constant = "ACTIVE")
+
     Promotion toPromotion(CreatePromotionRequest request);
 
     PromotionResponse toPromotionResponse(Promotion promotion);
