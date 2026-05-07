@@ -527,7 +527,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // Lấy danh sách orders
-        List<Order> orders = orderRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        List<Order> orders = orderRepository.findByUserIdOrderByIdDesc(userId);
 
         if (orders.isEmpty()) {
             return Collections.emptyList();

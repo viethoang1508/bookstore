@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PromotionBookRepository extends JpaRepository<PromotionBook,String> {
     List<PromotionBook> findByPromotionIdAndBookIdIn(String promotionId, List<String> bookIds);
+    List<PromotionBook> findByPromotionId(String promotionId);
 }

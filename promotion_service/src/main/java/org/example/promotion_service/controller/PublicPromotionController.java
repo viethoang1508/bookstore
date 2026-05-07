@@ -22,13 +22,13 @@ public class PublicPromotionController {
 
     // Lấy danh sách promotions
     @GetMapping
-    public ResponseEntity<BaseEntity<List<PromotionResponse>>> getAll() {
+    public ResponseEntity<BaseResponse<List<PromotionResponse>>> getAll() {
         return ResponseEntity.ok(new BaseResponse<>(publicPromotionService.getAll(), "Get all promotions successfully"));
     }
 
     // Lấy promotion theo code
     @GetMapping("/{code}")
-    public ResponseEntity<BaseEntity<PromotionResponse>> getByCode(@PathVariable String promotionCode) {
+    public ResponseEntity<BaseResponse<PromotionResponse>> getByCode(@PathVariable String promotionCode) {
         return ResponseEntity.ok(new BaseResponse<>(publicPromotionService.getByCode(promotionCode), "Get promotion successfully"));
     }
 }

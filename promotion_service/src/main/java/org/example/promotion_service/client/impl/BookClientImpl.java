@@ -7,6 +7,7 @@ import org.example.promotion_service.security.SecurityUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Set;

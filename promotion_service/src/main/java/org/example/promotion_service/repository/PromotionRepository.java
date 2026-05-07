@@ -5,7 +5,6 @@ import org.example.promotion_service.entity.Promotion;
 import org.example.promotion_service.entity.PromotionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.lang.ScopedValue;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
