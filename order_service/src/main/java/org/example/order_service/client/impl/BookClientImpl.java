@@ -4,16 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.order_service.client.BookClient;
 import org.example.order_service.dto.response.BaseResponse;
 import org.example.order_service.dto.response.BookDTO;
-import org.example.order_service.repository.OrderItemRepository;
 import org.example.order_service.security.SecurityUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor

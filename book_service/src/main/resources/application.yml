@@ -29,7 +29,7 @@ spring:
 #          jwk-set-uri: http://localhost:8180/realms/bookstore/protocol/openid-connect/certs
 
 server:
-  port: 8081
+  port: 8084
 
 eureka:
   instance:
