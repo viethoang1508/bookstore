@@ -37,11 +37,11 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = getOrCreateCart(userId);
 
-        List<CartItem> items = cartItemRepository.findAllByCartId(cart.getId());
+        List<CartItem> items = cartItemRepository.findAllByCartIdAndIsDeletedFalse(cart.getId());
 
         List<CartItemDTO> itemDTOS = items.stream()
                 .map(cartItemMapper::toCartItemDTO)
-                .collect(Collectors.toList());
+                .toList();
 
         CartResponseDTO cartResponseDTO = new CartResponseDTO();
         cartResponseDTO.setCartId(cart.getId());
@@ -73,7 +73,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = getOrCreateCart(userId);
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndBookId(cart.getId(), request.getBookId());
+        CartItem cartItem = cartItemRepository.findByCartIdAndBookIdAndIsDeletedFalse(cart.getId(), request.getBookId());
 
         if (cartItem == null) {
 
@@ -127,7 +127,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = getOrCreateCart(userId);
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndBookId(cart.getId(), bookId);
+        CartItem cartItem = cartItemRepository.findByCartIdAndBookIdAndIsDeletedFalse(cart.getId(), bookId);
 
         if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
@@ -153,7 +153,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = getOrCreateCart(userId);
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndBookId(cart.getId(), bookId);
+        CartItem cartItem = cartItemRepository.findByCartIdAndBookIdAndIsDeletedFalse(cart.getId(), bookId);
 
         if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
@@ -184,13 +184,12 @@ public class CartServiceImpl implements CartService {
             throw new ApplicationException("Invalid user id");
         }
 
-        Cart cart = cartRepository.findByUserId(userId)
+        return cartRepository.findByUserId(userId)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
                     newCart.setUserId(userId);
 
                     return cartRepository.save(newCart);
                 });
-        return cart;
     }
 }
