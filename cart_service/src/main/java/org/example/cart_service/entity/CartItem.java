@@ -2,8 +2,7 @@ package org.example.cart_service.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Id;
 import java.math.BigDecimal;
 
 @Entity

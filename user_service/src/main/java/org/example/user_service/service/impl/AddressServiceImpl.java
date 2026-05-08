@@ -29,7 +29,7 @@ public class AddressServiceImpl implements AddressService {
             throw new ApplicationException("userId cannot be null or blank");
         }
 
-        List<Address> addressList = addressRepository.findByUserIdAndDeletedFalse(userId);
+        List<Address> addressList = addressRepository.findByUserIdAndIsDeletedFalse(userId);
 
         List<AddressResponse> responseList = addressList.stream()
                 .map(addressMapper::toResponse)
@@ -59,7 +59,7 @@ public class AddressServiceImpl implements AddressService {
         } else {
             //Nếu user chưa có default address -> set default cho address này luôn
             boolean isDefault = addressRepository
-                    .findByUserIdAndIsDefaultTrueAndDeletedFalse(userId)
+                    .findByUserIdAndIsDefaultTrueAndIsDeletedFalse(userId)
                     .size() > 0;
             if (!isDefault) {
                 address.setIsDefault(true);
@@ -121,7 +121,7 @@ public class AddressServiceImpl implements AddressService {
 
         Address address = getOwnedAddress(userId, id);
         if (Boolean.TRUE.equals(address.getIsDefault())) {
-            List<Address> addressList = addressRepository.findByUserIdAndDeletedFalse(userId);
+            List<Address> addressList = addressRepository.findByUserIdAndIsDeletedFalse(userId);
 
             addressList.stream()
                     .filter(another -> !another.getId().equals(id))
@@ -164,7 +164,7 @@ public class AddressServiceImpl implements AddressService {
 
     // Hàm private
     private void clearDefaultSAddress(String userId) {
-        List<Address> addressList = addressRepository.findByUserIdAndDeletedFalse(userId);
+        List<Address> addressList = addressRepository.findByUserIdAndIsDeletedFalse(userId);
 
         addressList.forEach(address -> {
             address.setIsDefault(false);
@@ -172,7 +172,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     private Address getOwnedAddress(String userId, String id) {
-        Address address = addressRepository.findByIdAndDeletedFalse(id)
+        Address address = addressRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new ApplicationException("Address not found"));
 
         if (!address.getUserId().equals(userId)) {

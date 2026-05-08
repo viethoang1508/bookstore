@@ -15,7 +15,7 @@ import java.time.Instant;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;

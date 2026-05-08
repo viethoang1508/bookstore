@@ -19,7 +19,7 @@ import org.example.cart_service.service.CartService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -157,7 +157,7 @@ public class CartServiceImpl implements CartService {
 
         if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
-        }else {
+        } else {
             cartItem.setIsDeleted(true);
             cartItemRepository.save(cartItem);
             log.info("Deleted item from cart successfully, userId={}, bookId={}", userId, bookId);
@@ -173,8 +173,10 @@ public class CartServiceImpl implements CartService {
             return null;
         }
 
-        Cart cart = getOrCreateCart(event.getUserId());
+        getOrCreateCart(event.getUserId());
         log.info("Created cart from event for userId={}", event.getUserId());
+
+        return null;
     }
 
     // Hàm private
@@ -184,12 +186,15 @@ public class CartServiceImpl implements CartService {
             throw new ApplicationException("Invalid user id");
         }
 
-        return cartRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setUserId(userId);
+        Optional<Cart> existingCart = cartRepository.findByUserId(userId);
 
-                    return cartRepository.save(newCart);
-                });
+        if (existingCart.isPresent()) {
+            return existingCart.get();
+        }
+
+        Cart newCart = new Cart();
+        newCart.setUserId(userId);
+
+        return cartRepository.save(newCart);
     }
 }
