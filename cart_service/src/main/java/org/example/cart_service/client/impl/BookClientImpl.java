@@ -2,7 +2,7 @@ package org.example.cart_service.client.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cart_service.client.BookClient;
-import org.example.cart_service.dto.BaseResponse;
+import org.example.cart_service.dto.response.BaseResponse;
 import org.example.cart_service.dto.response.BookResponseDTO;
 import org.example.cart_service.exception.ApplicationException;
 import org.example.cart_service.security.SecurityUtils;

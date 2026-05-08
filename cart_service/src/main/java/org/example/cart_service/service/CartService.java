@@ -8,11 +8,11 @@ import org.example.cart_service.kafka.event.UserRegisteredEvent;
 public interface CartService {
     CartResponseDTO getCart(String userId);
 
-    void addItemToCart(AddToCartRequest request, String userId);
+    Void addItemToCart(AddToCartRequest request, String userId);
 
-    void updateItemInCart(String userId, String bookId, UpdateQuantityRequest request);
+    Void updateItemInCart(String userId, String bookId, UpdateQuantityRequest request);
 
-    void deleteItemFromCart(String userId, String bookId);
+    Void deleteItemFromCart(String userId, String bookId);
 
-    void handleUserRegisteredEvent(UserRegisteredEvent event);
+    Void handleUserRegisteredEvent(UserRegisteredEvent event);
 }

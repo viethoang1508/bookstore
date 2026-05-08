@@ -2,7 +2,7 @@ package org.example.cart_service.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.cart_service.dto.BaseResponse;
+import org.example.cart_service.dto.response.BaseResponse;
 import org.example.cart_service.dto.request.AddToCartRequest;
 import org.example.cart_service.dto.request.UpdateQuantityRequest;
 import org.example.cart_service.dto.response.CartResponseDTO;
@@ -24,7 +24,7 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.getCart(userId)));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.getCart(userId), "Get cart successfully"));
     }
 
     // Thêm items
@@ -34,7 +34,7 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.addItemToCart(request, userId)));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.addItemToCart(request, userId), "Add item to cart successfully"));
     }
 
     // Update quantity
@@ -45,7 +45,7 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.updateItemInCart(bookId, userId, request)));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.updateItemInCart(bookId, userId, request), "Update cart item successfully"));
     }
 
     // Xóa items
@@ -55,6 +55,6 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.deleteItemFromCart(bookId, userId)));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.deleteItemFromCart(bookId, userId), "Delete cart item successfully"));
     }
 }

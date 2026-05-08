@@ -62,7 +62,7 @@ public class AddressController {
             @PathVariable String id
     ) {
         String userId = token.getName();
-        return ResponseEntity.ok(new BaseResponse<>(addressService.setDefault(userId, id);, "Set default successfully"));
+        return ResponseEntity.ok(new BaseResponse<>(addressService.setDefault(userId, id), "Set default successfully"));
     }
 }
 

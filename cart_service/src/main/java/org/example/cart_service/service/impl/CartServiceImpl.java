@@ -52,7 +52,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addItemToCart(AddToCartRequest request, String userId) {
+    public Void addItemToCart(AddToCartRequest request, String userId) {
         log.info("Adding item to cart, userId={}, bookId={}", userId, request != null ? request.getBookId() : null);
 
         if (userId == null || userId.isBlank()) {
@@ -101,10 +101,11 @@ public class CartServiceImpl implements CartService {
         cartItemRepository.save(cartItem);
         log.info("Item added to cart successfully, userId={}, bookId={}", userId, request.getBookId());
 
+        return null;
     }
 
     @Override
-    public void updateItemInCart(String userId, String bookId, UpdateQuantityRequest request) {
+    public Void updateItemInCart(String userId, String bookId, UpdateQuantityRequest request) {
         log.info("Updating cart item quantity, userId={}, bookId={}", userId, bookId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
@@ -135,10 +136,12 @@ public class CartServiceImpl implements CartService {
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
         log.info("Updated cart item quantity successfully, userId={}, bookId={}, quantity={}", userId, bookId, quantity);
+
+        return null;
     }
 
     @Override
-    public void deleteItemFromCart(String userId, String bookId) {
+    public Void deleteItemFromCart(String userId, String bookId) {
         log.info("Deleting item from cart, userId={}, bookId={}", userId, bookId);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("Invalid user id");
@@ -159,13 +162,15 @@ public class CartServiceImpl implements CartService {
             cartItemRepository.save(cartItem);
             log.info("Deleted item from cart successfully, userId={}, bookId={}", userId, bookId);
         }
+
+        return null;
     }
 
     @Override
-    public void handleUserRegisteredEvent(UserRegisteredEvent event) {
+    public Void handleUserRegisteredEvent(UserRegisteredEvent event) {
         if (cartRepository.findByUserId(event.getUserId()).isPresent()) {
             log.info("Cart already exists for userId={}", event.getUserId());
-            return;
+            return null;
         }
 
         Cart cart = getOrCreateCart(event.getUserId());

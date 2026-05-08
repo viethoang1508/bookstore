@@ -108,7 +108,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void delete(String userId, String id) {
+    public Void delete(String userId, String id) {
         log.info("Deleting address, userId={}, addressId={}", userId, id);
 
         if (userId == null || userId.isBlank()) {
@@ -134,10 +134,12 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
 
         log.info("Address marked deleted successfully, userId={}, addressId={}", userId, id);
+
+        return  null;
     }
 
     @Override
-    public void setDefault(String userId, String id) {
+    public Void setDefault(String userId, String id) {
         log.info("Setting default address, userId={}, addressId={}", userId, id);
         if (userId == null || userId.isBlank()) {
             throw new ApplicationException("userId cannot be null or blank");
@@ -156,6 +158,8 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
 
         log.info("Set default address successfully, userId={}, addressId={}", userId, id);
+
+        return null;
     }
 
     // Hàm private

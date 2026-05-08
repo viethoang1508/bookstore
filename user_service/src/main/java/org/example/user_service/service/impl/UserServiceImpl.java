@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException("Cannot find user with id " + userId));
 
-        userMapper.updateUser(request);
+        userMapper.updateUser(request, user);
 
         user = userRepository.save(user);
 
