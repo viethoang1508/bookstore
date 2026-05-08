@@ -15,7 +15,7 @@ public class PromotionBook {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    
+
     private String promotionId;
 
     private String bookId;
