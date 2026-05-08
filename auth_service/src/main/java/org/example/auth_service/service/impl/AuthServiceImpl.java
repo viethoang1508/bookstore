@@ -23,6 +23,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -129,7 +130,7 @@ public class AuthServiceImpl implements AuthService {
                 .users()
                 .get(userId)
                 .roles()
-                .clientLevel()
+                .clientLevel(clientUuid)
                 .add(List.of(role));
     }
 
@@ -145,7 +146,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenResponse login(LoginRequest request) {
         // Password grant request dạng x-www-form-urlencoded theo chuẩn OIDC.
-        MultivaluedMap<String, String> body = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "password");
         body.add("client_id", clientId);
         body.add("client_secret", clientSecret);
@@ -154,7 +155,7 @@ public class AuthServiceImpl implements AuthService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultivaluedMap<String, String>> httpRequest = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, String>> httpRequest = new HttpEntity<>(body, headers);
 
         // Dựng endpoint token từ config để không hard-code theo môi trường local.
         String tokenUrl = authServerUrl + "/realms/" + realm + "/protocol/openid-connect/token";
@@ -162,8 +163,8 @@ public class AuthServiceImpl implements AuthService {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            ResponseEntity<String> response = restTemplate
-                    .postForEntity(tokenUrl, httpRequest, String.class);
+            ResponseEntity<TokenResponse> response = restTemplate
+                    .postForEntity(tokenUrl, httpRequest, TokenResponse.class);
 
             return response.getBody();
         } catch (Exception e) {
