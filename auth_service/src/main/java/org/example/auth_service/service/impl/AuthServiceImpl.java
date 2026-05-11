@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final Keycloak  keycloak;
     private final AuthEventProducer producer;
-    private static final String DEFAULT_CUSTOMER_ROLE = "USER";
+    private static final String DEFAULT_CUSTOMER_ROLE = "CUSTOMER";
 
     @Value("${keycloak.auth-server-url}")
     private String authServerUrl;
@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
             userId = location.substring(location.lastIndexOf("/") + 1);
 
             // Gán role khách hàng cho user mới
-            assignClientRole(userId, DEFAULT_CUSTOMER_ROLE);
+            assignRealmRole(userId, DEFAULT_CUSTOMER_ROLE);
 
             // Bắn event
             UserRegisteredEvent event = new UserRegisteredEvent();
@@ -109,19 +109,8 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private void assignClientRole(String userId, String roleName) {
-        // clientlevel role cần internal UUID của client (không dùng trực tiếp clientId "backend"
-        List<ClientRepresentation> clients = keycloak.realm(realm).clients().findByClientId(backendClientId);
-
-        if (clients.isEmpty()) {
-            throw new ApplicationException("Cannot find client with id " + backendClientId);
-        }
-
-        String clientUuid = clients.get(0).getId();
-
+    private void assignRealmRole(String userId, String roleName) {
         RoleRepresentation role = keycloak.realm(realm)
-                .clients()
-                .get(clientUuid)
                 .roles()
                 .get(roleName)
                 .toRepresentation();
@@ -130,7 +119,7 @@ public class AuthServiceImpl implements AuthService {
                 .users()
                 .get(userId)
                 .roles()
-                .clientLevel(clientUuid)
+                .realmLevel()
                 .add(List.of(role));
     }
 
