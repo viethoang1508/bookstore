@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
     @Value("${keycloak.credentials.secret}")
     private String clientSecret;
 
-    @Value("${keycloak.backend-client-id:backend}")
+    @Value("${keycloak.backend-client-id:auth-service}")
     private String backendClientId;
 
     @Override
