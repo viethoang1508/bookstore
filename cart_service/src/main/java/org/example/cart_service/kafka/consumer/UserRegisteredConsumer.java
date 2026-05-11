@@ -1,7 +1,5 @@
 package org.example.cart_service.kafka.consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.cart_service.kafka.event.UserRegisteredEvent;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class UserRegisteredConsumer {
 
     private final CartService cartService;
-    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "user-registered")
     @RetryableTopic (
@@ -26,9 +23,7 @@ public class UserRegisteredConsumer {
             exclude = {NullPointerException.class, IllegalArgumentException.class}
     )
 
-    public void consume(String json) throws JsonProcessingException {
-        UserRegisteredEvent event = objectMapper.readValue(json, UserRegisteredEvent.class);
-
+    public void consume(UserRegisteredEvent event) {
         if (event == null || event.getUserId() == null || event.getUserId().isBlank()) {
             log.warn("Skip user-registered event because userId is empty");
             return;
