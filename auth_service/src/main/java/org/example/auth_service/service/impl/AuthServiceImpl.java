@@ -61,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
         // Nếu username trống, fallback sang email để tránh lỗi validate
         user.setUsername(resolveUsername(request));
         user.setEmail(request.getEmail());
+        user.setEnabled(true);
 
         // Thiết lập mật khẩu ban đầu cho tài khoản
         CredentialRepresentation credential = new CredentialRepresentation();
@@ -90,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
             // Bắn event
             UserRegisteredEvent event = new UserRegisteredEvent();
             event.setUserId(userId);
-            event.setUserName(user.getUsername());
+            event.setUsername(user.getUsername());
             event.setEmail(user.getEmail());
             event.setFullName(request.getFullName());
             event.setPhone(request.getPhone());

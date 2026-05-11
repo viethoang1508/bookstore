@@ -1,6 +1,8 @@
 package org.example.auth_service.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.example.auth_service.dto.BaseResponse;
 import org.example.auth_service.dto.request.LoginRequest;
 import org.example.auth_service.dto.request.RegisterRequest;
@@ -20,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<BaseResponse<String>> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<BaseResponse<String>> register(@RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.ok(new BaseResponse<>(authService.register(request), "Register successfully"));
     }
 

@@ -36,11 +36,11 @@ public class UserRegisteredConsumer {
         }
 
         CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setId(event.getUserId());
         createUserRequest.setEmail(event.getEmail());
         createUserRequest.setFullName(event.getFullName());
         createUserRequest.setPhone(event.getPhone());
         createUserRequest.setUsername(event.getUsername());
-        createUserRequest.setPhone(event.getPhone());
 
         userService.createProfile(createUserRequest);
     }

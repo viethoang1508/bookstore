@@ -45,7 +45,7 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.updateItemInCart(bookId, userId, request), "Update cart item successfully"));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.updateItemInCart(userId, bookId, request), "Update cart item successfully"));
     }
 
     // Xóa items

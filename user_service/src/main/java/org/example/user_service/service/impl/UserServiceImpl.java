@@ -6,6 +6,7 @@ import org.example.user_service.dto.request.CreateUserRequest;
 import org.example.user_service.dto.request.UpdateProfileRequest;
 import org.example.user_service.dto.response.UserResponse;
 import org.example.user_service.entity.User;
+import org.example.user_service.entity.UserStatus;
 import org.example.user_service.exception.ApplicationException;
 import org.example.user_service.mapper.UserMapper;
 import org.example.user_service.repository.UserRepository;
@@ -66,7 +67,18 @@ public class UserServiceImpl implements UserService {
             throw new ApplicationException("Invalid request");
         }
 
+        if (request.getId() == null || request.getId().isBlank()) {
+            throw new ApplicationException("Invalid user id");
+        }
+
+        if (userRepository.existsById(request.getId())) {
+            log.info("User profile already exists, userId={}", request.getId());
+            return userMapper.toResponse(userRepository.findById(request.getId()).orElseThrow());
+        }
+
+
         User user = userMapper.toEntity(request);
+        user.setStatus(UserStatus.ACTIVE);
 
         user = userRepository.save(user);
 

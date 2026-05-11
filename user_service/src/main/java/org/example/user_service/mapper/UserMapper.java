@@ -14,7 +14,6 @@ public interface UserMapper {
     UserResponse toResponse(User user);
 
     // Create
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
