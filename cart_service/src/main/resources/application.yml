@@ -14,16 +14,14 @@ spring:
 
   kafka:
     bootstrap-servers: localhost:9092
-
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      group-id: cart-group
-      auto-offset-reset: earliest
+      group-id: cart-service
+      auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-
-      properties:
-        spring.json.trusted.packages: "*"
-        spring.json.value.default.type: org.example.cart_service.kafka.event.UserRegisteredEvent
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
   security:
     oauth2:
