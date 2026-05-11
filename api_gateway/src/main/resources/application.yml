@@ -1,0 +1,55 @@
+server:
+  port: 8282
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/public/auth/**
+
+        - id: book-service
+          uri: lb://BOOK-SERVICE
+          predicates:
+            - Path=/public/catalog, /public/catalog/**, /admin/books, /admin/books/**, /admin/categories, /admin/categories/**, /internal/books/**
+
+        - id: promotion-service
+          uri: lb://PROMOTION-SERVICE
+          predicates:
+            - Path=/public/promotions, /public/promotions/**, /admin/promotions, /admin/promotions/**, /internal/promotions/**
+
+        - id: cart-service
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/users/cart, /users/cart/**
+
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/users/orders, /users/orders/**, /admin/orders, /admin/orders/**
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users, /users/**, /internal/users/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/realms/bookstore-realm/protocol/openid-connect/certs
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+logging:
+  level:
+    root: info
+    org.springframework.security: DEBUG
