@@ -74,8 +74,16 @@ public class UserRegisteredConsumer {
 
         String payload = json.trim();
 
-        if (payload.startsWith("\"") && payload.endsWith("\"")) {
-            payload = objectMapper.readValue(payload, String.class);
+        // Some producers publish the event body as a JSON string, and in some
+        // retry/forwarding paths it can be wrapped multiple times.
+        // Example: "\"{\\\"userId\\\":...}\""
+        // Unwrap repeatedly until we get the real JSON object payload.
+        for (int i = 0; i < 5; i++) {
+            if (payload.startsWith("\"") && payload.endsWith("\"")) {
+                payload = objectMapper.readValue(payload, String.class).trim();
+                continue;
+            }
+            break;
         }
 
         return objectMapper.readValue(payload, UserRegisteredEvent.class);

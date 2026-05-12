@@ -56,8 +56,8 @@ public class UserRegisteredConsumer {
 
         String payload = json.trim();
 
-        if (payload.startsWith("\"") && payload.endsWith("\"")) {
-            payload = objectMapper.readValue(payload, String.class);
+        while (payload.startsWith("\"") && payload.endsWith("\"")) {
+            payload = objectMapper.readValue(payload, String.class).trim();
         }
 
         return objectMapper.readValue(payload, UserRegisteredEvent.class);
