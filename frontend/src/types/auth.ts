@@ -2,10 +2,10 @@ export type UserRole = "ADMIN" | "CUSTOMER";
 
 /** Placeholder: align fields with auth_service TokenResponse. */
 export type TokenResponse = {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn?: number;
-  tokenType?: string;
+  access_token: string;
+  refresh_token: string;
+  expires_in?: number;
+  token_type?: string;
 };
 
 export type AuthUser = {
