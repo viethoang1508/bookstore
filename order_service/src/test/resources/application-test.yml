@@ -1,0 +1,12 @@
+# Profile "test": no local Redis/Eureka; Kafka broker comes from @EmbeddedKafka on the test class.
+spring:
+  autoconfigure:
+    exclude:
+      - org.redisson.spring.starter.RedissonAutoConfigurationV2
+  cloud:
+    discovery:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false

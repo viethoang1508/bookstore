@@ -16,12 +16,7 @@ public class UserRegisteredConsumer {
 
     private final CartService cartService;
 
-    @KafkaListener(
-            topics = "user-registered",
-            properties = {
-                    "spring.json.value.default.type=org.example.cart_service.kafka.event.UserRegisteredEvent"
-            }
-    )
+    @KafkaListener(topics = "user-registered")
     @RetryableTopic(
             attempts = "4",
             backoff = @Backoff(delay = 2000, multiplier = 2),
@@ -34,9 +29,9 @@ public class UserRegisteredConsumer {
 
         log.info("Received user-registered event: {}", event);
 
-        if (event == null ||
-                event.getUserId() == null ||
-                event.getUserId().isBlank()) {
+        if (event == null
+                || event.getUserId() == null
+                || event.getUserId().isBlank()) {
 
             log.warn("Skip user-registered event because userId is empty");
             return;
@@ -44,9 +39,7 @@ public class UserRegisteredConsumer {
 
         cartService.handleUserRegisteredEvent(event);
 
-        log.info(
-                "Handled user-registered event for userId={}",
-                event.getUserId()
-        );
+        log.info("Handled user-registered event for userId={}",
+                event.getUserId());
     }
 }
