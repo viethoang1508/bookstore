@@ -44,6 +44,12 @@ public class UserRegisteredConsumer {
             return;
         }
 
+        if ("ADMIN".equalsIgnoreCase(event.getRole())
+                || "SUPER_ADMIN".equalsIgnoreCase(event.getRole())) {
+            log.info("Skip cart creation for privileged role={}, userId={}", event.getRole(), event.getUserId());
+            return;
+        }
+
         CreateUserRequest request = new CreateUserRequest();
 
         request.setId(event.getUserId());

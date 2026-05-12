@@ -30,10 +30,12 @@ public class OrderCreatedConsumer {
     public void handleOrderCreatedEvent(String json) throws JsonProcessingException {
         OrderCreatedEvent orderCreatedEvent = objectMapper.readValue(json, OrderCreatedEvent.class);
 
-        if (orderCreatedEvent.getDeductRequests() == null || orderCreatedEvent.getDeductRequests().isEmpty()) {
-            log.warn("No items in order created, orderId={}", orderCreatedEvent.getOrderId());
-            return;
+        if (orderCreatedEvent.getOrderId() == null || orderCreatedEvent.getOrderId().isBlank()
+                || orderCreatedEvent.getDeductRequests() == null
+                || orderCreatedEvent.getDeductRequests().isEmpty()) {
+            throw new IllegalArgumentException("Invalid order-created event: " + json);
         }
+
         internalService.deductBooks(orderCreatedEvent);
     }
 }

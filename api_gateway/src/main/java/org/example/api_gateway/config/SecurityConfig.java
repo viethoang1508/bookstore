@@ -43,11 +43,11 @@ public class SecurityConfig {
 
                         // 2. ADMIN ENDPOINTS
                         // User profile + address.
-                        .pathMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .pathMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPER_ADMIN")
 
                         // 3) USER (đăng nhập)
                         // User profile, address, cart, order người dùng.
-                        .pathMatchers("/users/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .pathMatchers("/users/**").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN")
 
                         // 4) INTERNAL
                         .pathMatchers("/internal/**").permitAll()

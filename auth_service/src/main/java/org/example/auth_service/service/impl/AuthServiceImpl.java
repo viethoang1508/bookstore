@@ -1,5 +1,6 @@
 package org.example.auth_service.service.impl;
 
+import org.example.auth_service.dto.request.CreateAdminRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -36,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
     private final Keycloak  keycloak;
     private final AuthEventProducer producer;
     private static final String DEFAULT_CUSTOMER_ROLE = "CUSTOMER";
+    private static final String ADMIN_ROLE = "ADMIN";
 
     @Value("${keycloak.auth-server-url}")
     private String authServerUrl;
@@ -95,6 +97,7 @@ public class AuthServiceImpl implements AuthService {
             event.setEmail(user.getEmail());
             event.setFullName(request.getFullName());
             event.setPhone(request.getPhone());
+            event.setRole(DEFAULT_CUSTOMER_ROLE);
 
             producer.publishUserRegistered(event);
 
@@ -107,6 +110,43 @@ public class AuthServiceImpl implements AuthService {
             }
             throw e;
         }
+    }
+
+    @Override
+    public String createAdmin(CreateAdminRequest request) {
+        UserRepresentation user = new UserRepresentation();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setEnabled(true);
+
+        CredentialRepresentation credential = new CredentialRepresentation();
+        credential.setType(CredentialRepresentation.PASSWORD);
+        credential.setTemporary(false);
+        credential.setValue(request.getPassword());
+        user.setCredentials(Collections.singletonList(credential));
+
+        Response response = keycloak.realm(realm).users().create(user);
+        if (response.getStatus() != 201) {
+            throw new RuntimeException("Cannot create admin in Keycloak");
+        }
+
+        String location = response.getHeaderString("Location");
+        if (location == null || location.isBlank()) {
+            throw new RuntimeException("Cannot get created admin location from Keycloak");
+        }
+        String userId = location.substring(location.lastIndexOf("/") + 1);
+        assignRealmRole(userId, ADMIN_ROLE);
+
+        UserRegisteredEvent event = new UserRegisteredEvent();
+        event.setUserId(userId);
+        event.setUsername(request.getUsername());
+        event.setEmail(request.getEmail());
+        event.setFullName(request.getFullName());
+        event.setPhone(request.getPhone());
+        event.setRole(ADMIN_ROLE);
+        producer.publishUserRegistered(event);
+
+        return userId;
     }
 
     private void assignRealmRole(String userId, String roleName) {
