@@ -1,7 +1,5 @@
 package org.example.cart_service.kafka.consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.cart_service.kafka.event.UserRegisteredEvent;
@@ -17,29 +15,38 @@ import org.springframework.stereotype.Component;
 public class UserRegisteredConsumer {
 
     private final CartService cartService;
-    private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user-registered")
-    @RetryableTopic (
+    @KafkaListener(
+            topics = "user-registered",
+            properties = {
+                    "spring.json.value.default.type=org.example.cart_service.kafka.event.UserRegisteredEvent"
+            }
+    )
+    @RetryableTopic(
             attempts = "4",
             backoff = @Backoff(delay = 2000, multiplier = 2),
-            exclude = {NullPointerException.class, IllegalArgumentException.class}
+            exclude = {
+                    NullPointerException.class,
+                    IllegalArgumentException.class
+            }
     )
+    public void consume(UserRegisteredEvent event) {
 
-    public void consume(String json)  throws JsonProcessingException {
-        log.info("Received user-registered event: {}", json);
+        log.info("Received user-registered event: {}", event);
 
-        UserRegisteredEvent event =
-                objectMapper.readValue(json, UserRegisteredEvent.class);
+        if (event == null ||
+                event.getUserId() == null ||
+                event.getUserId().isBlank()) {
 
-        if (event.getUserId() == null || event.getUserId().isBlank()) {
             log.warn("Skip user-registered event because userId is empty");
             return;
         }
 
         cartService.handleUserRegisteredEvent(event);
 
-        log.info("Handled user-registered event for userId={}",
-                event.getUserId());
+        log.info(
+                "Handled user-registered event for userId={}",
+                event.getUserId()
+        );
     }
 }

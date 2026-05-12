@@ -16,6 +16,9 @@ public class AuthEventProducer {
     public void publishUserRegistered(UserRegisteredEvent event) {
         kafkaTemplate.send("user-registered", event);
 
-        log.info("Published user-registered event for userId={} to topic={}", event.getUserId(), event);
-    }
+        log.info(
+                "Published user-registered event for userId={} to topic={}",
+                event.getUserId(),
+                "user-registered"
+        );    }
 }

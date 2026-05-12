@@ -1,7 +1,5 @@
 package org.example.user_service.kafka.consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.user_service.dto.request.CreateUserRequest;
@@ -18,22 +16,29 @@ import org.springframework.stereotype.Component;
 public class UserRegisteredConsumer {
 
     private final UserService userService;
-    private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user-registered")
+    @KafkaListener(
+            topics = "user-registered",
+            properties = {
+                    "spring.json.value.default.type=org.example.user_service.kafka.event.UserRegisteredEvent"
+            }
+    )
     @RetryableTopic(
             attempts = "4",
             backoff = @Backoff(delay = 2000, multiplier = 2),
-            exclude = {NullPointerException.class, IllegalArgumentException.class}
+            exclude = {
+                    NullPointerException.class,
+                    IllegalArgumentException.class
+            }
     )
+    public void consume(UserRegisteredEvent event) {
 
-    public void consume(String json) throws JsonProcessingException {
-        log.info("Received message: {}", json);
+        log.info("Received user-registered event: {}", event);
 
-        UserRegisteredEvent event =
-                objectMapper.readValue(json, UserRegisteredEvent.class);
+        if (event == null ||
+                event.getUserId() == null ||
+                event.getUserId().isBlank()) {
 
-        if (event.getUserId() == null || event.getUserId().isBlank()) {
             log.warn("Skip user-registered event because userId is empty");
             return;
         }
@@ -48,6 +53,9 @@ public class UserRegisteredConsumer {
 
         userService.createProfile(request);
 
-        log.info("Created profile for userId={}", event.getUserId());
+        log.info(
+                "Created profile for userId={}",
+                event.getUserId()
+        );
     }
 }
