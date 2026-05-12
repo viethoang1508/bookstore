@@ -29,6 +29,9 @@ Thumbs.db
 # Env & config
 # ========================
 .env
+.env.local
+.env.*.local
+
 application-local.yml
 application-dev.yml
 
@@ -38,6 +41,25 @@ application-dev.yml
 docker-data/
 
 # ========================
-# Node (nếu có frontend sau này)
+# Node / Frontend
 # ========================
 node_modules/
+
+# Next.js
+.next/
+out/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Coverage
+coverage/
+
+# Cache
+.cache/
+
+# TypeScript
+*.tsbuildinfo
