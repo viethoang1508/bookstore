@@ -1,5 +1,7 @@
 package org.example.user_service.kafka.consumer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.user_service.dto.request.CreateUserRequest;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class UserRegisteredConsumer {
 
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "user-registered")
     @RetryableTopic(
@@ -24,19 +27,27 @@ public class UserRegisteredConsumer {
             exclude = {NullPointerException.class, IllegalArgumentException.class}
     )
 
-    public void consume(UserRegisteredEvent event) {
-        if (event == null || event.getUserId() == null || event.getUserId().isBlank()) {
+    public void consume(String json) throws JsonProcessingException {
+        log.info("Received message: {}", json);
+
+        UserRegisteredEvent event =
+                objectMapper.readValue(json, UserRegisteredEvent.class);
+
+        if (event.getUserId() == null || event.getUserId().isBlank()) {
             log.warn("Skip user-registered event because userId is empty");
             return;
         }
 
-        CreateUserRequest createUserRequest = new CreateUserRequest();
-        createUserRequest.setId(event.getUserId());
-        createUserRequest.setEmail(event.getEmail());
-        createUserRequest.setFullName(event.getFullName());
-        createUserRequest.setPhone(event.getPhone());
-        createUserRequest.setUsername(event.getUsername());
+        CreateUserRequest request = new CreateUserRequest();
 
-        userService.createProfile(createUserRequest);
+        request.setId(event.getUserId());
+        request.setUsername(event.getUsername());
+        request.setEmail(event.getEmail());
+        request.setFullName(event.getFullName());
+        request.setPhone(event.getPhone());
+
+        userService.createProfile(request);
+
+        log.info("Created profile for userId={}", event.getUserId());
     }
 }
