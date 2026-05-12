@@ -20,7 +20,6 @@ public class UserRegisteredConsumer {
     private final UserService userService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user-registered")
     @RetryableTopic(
             attempts = "4",
             backoff = @Backoff(delay = 2000, multiplier = 2),
@@ -29,10 +28,13 @@ public class UserRegisteredConsumer {
                     IllegalArgumentException.class
             }
     )
+    @KafkaListener(
+            topics = "user-registered",
+            groupId = "user-service"
+    )
     public void consume(String json) throws JsonProcessingException {
 
-        UserRegisteredEvent event =
-                objectMapper.readValue(json, UserRegisteredEvent.class);
+        UserRegisteredEvent event = parseEvent(json);
 
         log.info("Received user-registered event: {}", event);
 
@@ -62,5 +64,20 @@ public class UserRegisteredConsumer {
 
         log.info("Created profile for userId={}",
                 event.getUserId());
+    }
+
+    private UserRegisteredEvent parseEvent(String json) throws JsonProcessingException {
+
+        if (json == null || json.isBlank()) {
+            return null;
+        }
+
+        String payload = json.trim();
+
+        if (payload.startsWith("\"") && payload.endsWith("\"")) {
+            payload = objectMapper.readValue(payload, String.class);
+        }
+
+        return objectMapper.readValue(payload, UserRegisteredEvent.class);
     }
 }

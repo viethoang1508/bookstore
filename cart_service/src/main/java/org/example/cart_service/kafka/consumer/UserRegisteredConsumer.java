@@ -30,8 +30,7 @@ public class UserRegisteredConsumer {
     )
     public void consume(String json) throws JsonProcessingException {
 
-        UserRegisteredEvent event =
-                objectMapper.readValue(json, UserRegisteredEvent.class);
+        UserRegisteredEvent event = parseEvent(json);
 
         log.info("Received user-registered event: {}", event);
 
@@ -47,5 +46,20 @@ public class UserRegisteredConsumer {
 
         log.info("Handled user-registered event for userId={}",
                 event.getUserId());
+    }
+
+    private UserRegisteredEvent parseEvent(String json) throws JsonProcessingException {
+
+        if (json == null || json.isBlank()) {
+            return null;
+        }
+
+        String payload = json.trim();
+
+        if (payload.startsWith("\"") && payload.endsWith("\"")) {
+            payload = objectMapper.readValue(payload, String.class);
+        }
+
+        return objectMapper.readValue(payload, UserRegisteredEvent.class);
     }
 }

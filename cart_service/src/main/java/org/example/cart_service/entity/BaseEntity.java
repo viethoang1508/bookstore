@@ -21,18 +21,18 @@ public abstract class BaseEntity {
     private Boolean isDeleted = false;
 
     @CreatedDate
-    @Column(name = "created_date", updatable = false)
-    private Instant createdDate;
+    @Column(name = "created_at", updatable = false)
+    private Instant createdAt;
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date")
-    private Instant lastModifiedDate;
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 
     @LastModifiedBy
-    @Column(name = "last_modified_by")
-    private String lastModifiedBy;
+    @Column(name = "updated_by")
+    private String updatedBy;
 }
