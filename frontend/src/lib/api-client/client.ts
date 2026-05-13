@@ -12,6 +12,7 @@ export type ApiRequestOptions = {
   body?: unknown;
   headers?: Record<string, string>;
   accessToken?: string | null;
+  skipAuth?: boolean;
   signal?: AbortSignal;
 };
 
@@ -49,7 +50,7 @@ export async function apiRequest<T>(opts: ApiRequestOptions): Promise<T> {
     headers["Content-Type"] = "application/json";
   }
 
-  const token = opts.accessToken ?? getCookieAccessToken();
+  const token = opts.skipAuth ? null : (opts.accessToken ?? getCookieAccessToken());
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }

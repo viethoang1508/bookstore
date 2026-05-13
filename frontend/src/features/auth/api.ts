@@ -23,6 +23,7 @@ export const authApi = {
       apiRequest<BaseResponse<string>>({
         method: "POST",
         path: "/public/auth/register",
+        skipAuth: true,
         body,
       }),
     ),
@@ -31,6 +32,7 @@ export const authApi = {
       apiRequest<BaseResponse<TokenResponse>>({
         method: "POST",
         path: "/public/auth/login",
+        skipAuth: true,
         body,
       }),
     ),
