@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   async rewrites() {
-    const gateway = process.env.API_GATEWAY_URL ?? "http://localhost:8080";
+    const gateway = process.env.API_GATEWAY_URL ?? "http://localhost:8082";
     return [
       {
         source: "/api-gateway/:path*",
