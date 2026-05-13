@@ -8,7 +8,7 @@ export type RegisterRequest = {
 };
 
 export type LoginRequest = {
-  usernameOrEmail: string;
+  username: string;
   password: string;
 };
 

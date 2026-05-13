@@ -30,7 +30,7 @@ export function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: (values: LoginFormValues) =>
       authApi.login({
-        usernameOrEmail: values.username,
+        username: values.username,
         password: values.password,
       }),
     onSuccess: (token) => {
