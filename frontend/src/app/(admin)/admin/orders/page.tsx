@@ -38,7 +38,7 @@ export default function AdminOrdersPage() {
       {orders.map((order) => (
         <article key={order.orderId} className="flex items-center justify-between rounded border p-3 text-sm">
           <div>#{order.orderId} · {order.status}</div>
-          <<button
+          <button
             type="button"
             className="underline"
             onClick={async () => {
