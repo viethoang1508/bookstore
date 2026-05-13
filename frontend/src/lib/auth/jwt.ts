@@ -23,20 +23,31 @@ export function decodeJwtPayload(token: string): Record<string, unknown> | null 
 }
 
 export function extractRoleFromPayload(payload: Record<string, unknown>): UserRole | null {
-  const direct = payload.role;
-  if (direct === "ADMIN" || direct === "CUSTOMER") return direct;
+  const normalizeRole = (value: unknown): UserRole | null => {
+    if (typeof value !== "string") return null;
+    if (value === "ADMIN" || value === "SUPER_ADMIN") return "ADMIN";
+    if (value === "CUSTOMER") return "CUSTOMER";
+    return null;
+  };
+
+  const direct = normalizeRole(payload.role);
+  if (direct) return direct;
 
   const roles = payload.roles;
   if (Array.isArray(roles)) {
-    if (roles.includes("ADMIN")) return "ADMIN";
-    if (roles.includes("CUSTOMER")) return "CUSTOMER";
+    for (const role of roles) {
+      const normalized = normalizeRole(role);
+      if (normalized) return normalized;
+    }
   }
 
   const realmAccess = payload.realm_access as { roles?: string[] } | undefined;
   const ra = realmAccess?.roles;
   if (Array.isArray(ra)) {
-    if (ra.includes("ADMIN")) return "ADMIN";
-    if (ra.includes("CUSTOMER")) return "CUSTOMER";
+    for (const role of ra) {
+      const normalized = normalizeRole(role);
+      if (normalized) return normalized;
+    }
   }
 
   return null;
