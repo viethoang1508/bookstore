@@ -8,33 +8,33 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://AUTH-SERVICE
+          uri: lb://auth-service
           predicates:
             - Path=/public/auth/**
             - Path=/public/auth/**, /admin/users/admin
 
         - id: book-service
-          uri: lb://BOOK-SERVICE
+          uri: lb://book-service
           predicates:
             - Path=/public/catalog, /public/catalog/**, /admin/books, /admin/books/**, /admin/categories, /admin/categories/**, /internal/books/**
 
         - id: promotion-service
-          uri: lb://PROMOTION-SERVICE
+          uri: lb://promotion-service
           predicates:
             - Path=/public/promotions, /public/promotions/**, /admin/promotions, /admin/promotions/**, /internal/promotions/**
 
         - id: cart-service
-          uri: lb://CART-SERVICE
+          uri: lb://cart-service
           predicates:
             - Path=/users/cart, /users/cart/**
 
         - id: order-service
-          uri: lb://ORDER-SERVICE
+          uri: lb://order-service
           predicates:
             - Path=/users/orders, /users/orders/**, /admin/orders, /admin/orders/**
 
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://user-service
           predicates:
             - Path=/users, /users/**, /internal/users/**
   security:
