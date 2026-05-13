@@ -61,6 +61,7 @@ export async function apiRequest<T>(opts: ApiRequestOptions): Promise<T> {
     body: hasBody ? JSON.stringify(opts.body) : undefined,
     signal: opts.signal,
     cache: "no-store",
+    credentials: "include",
   });
 
   const contentType = res.headers.get("content-type") ?? "";

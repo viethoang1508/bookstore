@@ -9,6 +9,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updatingOrderId, setUpdatingOrderId] = useState<number | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -40,13 +41,27 @@ export default function AdminOrdersPage() {
           <div>#{order.orderId} · {order.status}</div>
           <button
             type="button"
-            className="underline"
+            className="underline disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={updatingOrderId === order.orderId}
             onClick={async () => {
-              await adminOrdersApi.updateStatus(order.orderId, "SHIPPED");
-              await load();
+              setError(null);
+              setUpdatingOrderId(order.orderId);
+
+              try {
+                await adminOrdersApi.updateStatus(order.orderId, "SHIPPED");
+                await load();
+              } catch (e) {
+                if (e instanceof ApiError && e.status === 404) {
+                  setError("API cập nhật trạng thái đơn hàng chưa khả dụng trong môi trường hiện tại (404 Not Found).");
+                } else {
+                  setError("Không thể cập nhật trạng thái đơn hàng. Vui lòng thử lại.");
+                }
+              } finally {
+                setUpdatingOrderId(null);
+              }
             }}
           >
-            Chuyển SHIPPED
+            {updatingOrderId === order.orderId ? "Đang cập nhật..." : "Chuyển SHIPPED"}
           </button>
         </article>
       ))}
