@@ -1,2 +1,5 @@
-/** Admin users — wire to user_service / auth admin endpoints. */
-export const adminUsersApi = {} as const;
+import { profileApi } from "@/features/profile";
+
+export const adminUsersApi = {
+  me: () => profileApi.me(),
+} as const;
