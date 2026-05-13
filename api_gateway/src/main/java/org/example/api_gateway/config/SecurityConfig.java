@@ -28,8 +28,8 @@ public class SecurityConfig {
                 // Gateway dùng JWT Bearer token (stateless), không dùng session/cookie form,
                 // nên không cần cơ chế CSRF token.
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(formLogin -> formLogin.disable())
                 .authorizeExchange(exchanges  -> exchanges
                         // 1) PUBLIC ENDPOINTS
                         // Auth service: đăng ký / đăng nhập.
