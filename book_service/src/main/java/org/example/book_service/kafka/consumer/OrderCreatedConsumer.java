@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.book_service.kafka.event.OrderCreatedEvent;
 import org.example.book_service.service.InternalService;
-import org.springframework.kafka.annotation.BackOff;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class OrderCreatedConsumer {
     @KafkaListener(topics = "order-created")
     @RetryableTopic(
             attempts = "4",
-            backOff = @BackOff(delay = 2000, multiplier = 2),
+            backoff = @Backoff(delay = 2000, multiplier = 2),
             exclude = {NullPointerException.class, IllegalArgumentException.class}
     )
 
