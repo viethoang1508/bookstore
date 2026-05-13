@@ -20,7 +20,7 @@ import { useAuthContext } from "@/providers/auth-provider";
 export function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { username: "", password: "" },
   });
 
   const router = useRouter();
@@ -30,7 +30,7 @@ export function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: (values: LoginFormValues) =>
       authApi.login({
-        usernameOrEmail: values.email,
+        usernameOrEmail: values.username,
         password: values.password,
       }),
     onSuccess: (token) => {
@@ -60,7 +60,7 @@ export function LoginForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
-            <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input autoComplete="email" type="email" placeholder="you@example.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
+            <FormField control={form.control} name="username" render={({ field }) => (<FormItem><FormLabel>Username</FormLabel><FormControl><Input autoComplete="username" type="text" placeholder="your-username" {...field} /></FormControl><FormMessage /></FormItem>)} />
             <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Password</FormLabel><FormControl><Input autoComplete="current-password" type="password" {...field} /></FormControl><FormMessage /></FormItem>)} />
           </CardContent>
           <CardFooter>

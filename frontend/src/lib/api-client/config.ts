@@ -1,7 +1,7 @@
 /**
- * Reads `NEXT_PUBLIC_API_GATEWAY_URL`. Falls back for local/build only; set the env in production.
- */
+ * Reads `NEXT_PUBLIC_API_GATEWAY_URL`.
+ * Defaults to a same-origin Next.js proxy path to avoid browser CORS/mixed-content issues in local/dev. */
 export function getApiGatewayBaseUrl(): string {
-  const url = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? "http://localhost:8080";
+  const url = process.env.NEXT_PUBLIC_API_GATEWAY_URL ?? "/api-gateway";
   return url.replace(/\/$/, "");
 }

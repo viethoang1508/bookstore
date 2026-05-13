@@ -17,14 +17,17 @@ export type ApiRequestOptions = {
 
 function buildUrl(path: string, query?: ApiRequestOptions["query"]): string {
   const base = getApiGatewayBaseUrl();
-  const url = new URL(`${base}${path.startsWith("/") ? path : `/${path}`}`);
+  const normalizedPath = `${base}${path.startsWith("/") ? path : `/${path}`}`;
+  const url = base.startsWith("/")
+    ? new URL(normalizedPath, typeof window === "undefined" ? "http://localhost" : window.location.origin)
+    : new URL(normalizedPath);
   if (query) {
     for (const [k, v] of Object.entries(query)) {
       if (v === undefined) continue;
       url.searchParams.set(k, String(v));
     }
   }
-  return url.toString();
+  return base.startsWith("/") ? `${url.pathname}${url.search}` : url.toString();
 }
 
 function getCookieAccessToken(): string | null {
