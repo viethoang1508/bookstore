@@ -3,14 +3,23 @@
 import { useEffect, useState } from "react";
 
 import { adminCategoriesApi, type AdminCategory } from "@/features/admin-categories";
+import { ApiError } from "@/lib/api-client/errors";
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<AdminCategory[]>([]);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const load = async () => setCategories(await adminCategoriesApi.list());
+  const load = async () => {
+    try {
+      setError(null);
+      setCategories(await adminCategoriesApi.list());
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Không thể tải category.");
+    }
+  };
 
   useEffect(() => {
     void load();
@@ -19,15 +28,20 @@ export default function AdminCategoriesPage() {
   const submit = async () => {
     if (!name.trim()) return;
     const payload = { name, slug: slug || undefined };
-    if (editingId) {
-      await adminCategoriesApi.update(editingId, payload);
-    } else {
-      await adminCategoriesApi.create(payload);
+    try {
+      setError(null);
+      if (editingId) {
+        await adminCategoriesApi.update(editingId, payload);
+      } else {
+        await adminCategoriesApi.create(payload);
+      }
+      setName("");
+      setSlug("");
+      setEditingId(null);
+      await load();
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Không thể lưu category.");
     }
-    setName("");
-    setSlug("");
-    setEditingId(null);
-    await load();
   };
 
   return (
@@ -38,6 +52,7 @@ export default function AdminCategoriesPage() {
         <input className="rounded border px-2 py-1 text-sm" placeholder="slug (optional)" value={slug} onChange={(e) => setSlug(e.target.value)} />
         <button type="button" className="rounded bg-black px-3 py-2 text-sm text-white" onClick={() => void submit()}>{editingId ? "Lưu cập nhật" : "Thêm category"}</button>
       </div>
+      {error ? <p className="text-sm text-red-600">{error}</p> : null}
       {categories.map((category) => (
         <article key={category.id} className="flex items-center justify-between rounded border p-3 text-sm">
           <div>{category.name} (/{category.slug})</div>
@@ -47,8 +62,13 @@ export default function AdminCategoriesPage() {
               type="button"
               className="text-red-600 underline"
               onClick={async () => {
-                await adminCategoriesApi.delete(category.id);
-                await load();
+                try {
+                  setError(null);
+                  await adminCategoriesApi.delete(category.id);
+                  await load();
+                } catch (e) {
+                  setError(e instanceof ApiError ? e.message : "Không thể xóa category.");
+                }
               }}
             >
               Xóa

@@ -9,7 +9,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [updatingOrderId, setUpdatingOrderId] = useState<number | null>(null);
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -48,7 +48,8 @@ export default function AdminOrdersPage() {
               setUpdatingOrderId(order.orderId);
 
               try {
-                await adminOrdersApi.updateStatus(order.orderId, "SHIPPED");
+                const nextStatus = order.status === "PENDING" ? "COMPLETED" : "CANCELLED";
+                await adminOrdersApi.updateStatus(order.orderId, nextStatus);
                 await load();
               } catch (e) {
                 if (e instanceof ApiError && e.status === 404) {
@@ -61,7 +62,7 @@ export default function AdminOrdersPage() {
               }
             }}
           >
-            {updatingOrderId === order.orderId ? "Đang cập nhật..." : "Chuyển SHIPPED"}
+            {updatingOrderId === order.orderId ? "Đang cập nhật..." : order.status === "PENDING" ? "Chuyển COMPLETED" : "Chuyển CANCELLED"}
           </button>
         </article>
       ))}

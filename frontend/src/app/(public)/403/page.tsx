@@ -1,20 +1,15 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { booksApi } from "@/features/books";
+import { cartApi } from "@/features/cart";
+import type { BookSummary } from "@/types";
 
-import { Button } from "@/components/ui/button";
-
-export default function ForbiddenPage() {
-  return (
-    <div className="mx-auto flex max-w-lg flex-col items-center gap-4 py-16 text-center">
-      <h1 className="text-3xl font-bold">403</h1>
-      <p className="text-muted-foreground">You don&apos;t have permission to view this area. Admin routes require the ADMIN role.</p>
-      <div className="flex flex-wrap justify-center gap-2">
-        <Button asChild>
-          <Link href="/">Go home</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/login">Sign in</Link>
-        </Button>
-      </div>
-    </div>
-  );
+export default function BookDetailPage({ params }: { params: { id: string } }) {
+  const [book, setBook] = useState<BookSummary | null>(null);
+  const [qty, setQty] = useState(1);
+  const [msg, setMsg] = useState("");
+  useEffect(()=>{booksApi.list().then((list)=>setBook(list.find((x)=>x.id===params.id) ?? null));},[params.id]);
+  const add = async()=>{ await cartApi.addItem(params.id, qty); setMsg("Added to cart"); };
+  return <div className="space-y-3"><h1 className="text-2xl font-semibold">Book detail</h1>{book?<div className="rounded border p-3"><div>{book.title}</div><div>{String(book.price ?? 0)}</div><input type="number" min={1} value={qty} onChange={(e)=>setQty(Number(e.target.value)||1)} className="mt-2 rounded border px-2 py-1" /><button onClick={()=>void add()} className="ml-2 rounded bg-black px-3 py-1 text-white">Add to cart</button></div>:<p>Book not found.</p>}<p>{msg}</p><Link href="/books" className="underline">Back</Link></div>;
 }

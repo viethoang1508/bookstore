@@ -1,7 +1,7 @@
 import { apiRequest } from "@/lib/api-client";
 import type { BaseResponse, BookSummary } from "@/types";
 
-type PageResponse<T> = { content: T[] };
+type PageResponse<T> = { content?: T[] };
 
 async function unwrap<T>(promise: Promise<BaseResponse<T>>): Promise<T> {
   const response = await promise;

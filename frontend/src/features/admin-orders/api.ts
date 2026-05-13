@@ -3,6 +3,8 @@ import type { BaseResponse } from "@/types";
 
 export type AdminOrder = {
   orderId: string;
+  totalAmount?: number;
+  discountAmount?: number;
   finalAmount?: number;
   status?: string;
 };
