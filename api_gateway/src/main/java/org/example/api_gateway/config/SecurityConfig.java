@@ -3,6 +3,7 @@ package org.example.api_gateway.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -27,6 +28,8 @@ public class SecurityConfig {
                 // Gateway dùng JWT Bearer token (stateless), không dùng session/cookie form,
                 // nên không cần cơ chế CSRF token.
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeExchange(exchanges  -> exchanges
                         // 1) PUBLIC ENDPOINTS
                         // Auth service: đăng ký / đăng nhập.
