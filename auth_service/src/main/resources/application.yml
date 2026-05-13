@@ -26,7 +26,7 @@ keycloak:
   resource: auth-service
   credentials:
     secret: 'UyOgcuXXvbYO11f3KzFcrwaRMh9gRo3F'
-    
+
 eureka:
   instance:
     prefer-ip-address: true

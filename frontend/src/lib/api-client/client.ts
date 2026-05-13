@@ -1,5 +1,7 @@
 import { getApiGatewayBaseUrl } from "@/lib/api-client/config";
 import { ApiError } from "@/lib/api-client/errors";
+import { ACCESS_TOKEN_COOKIE } from "@/lib/auth/constants";
+import { readClientCookie } from "@/lib/auth/read-cookie-client";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -25,6 +27,11 @@ function buildUrl(path: string, query?: ApiRequestOptions["query"]): string {
   return url.toString();
 }
 
+function getCookieAccessToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return readClientCookie(ACCESS_TOKEN_COOKIE);
+}
+
 export async function apiRequest<T>(opts: ApiRequestOptions): Promise<T> {
   const method = opts.method ?? "GET";
   const url = buildUrl(opts.path, opts.query);
@@ -39,8 +46,9 @@ export async function apiRequest<T>(opts: ApiRequestOptions): Promise<T> {
     headers["Content-Type"] = "application/json";
   }
 
-  if (opts.accessToken) {
-    headers.Authorization = `Bearer ${opts.accessToken}`;
+  const token = opts.accessToken ?? getCookieAccessToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const res = await fetch(url, {
