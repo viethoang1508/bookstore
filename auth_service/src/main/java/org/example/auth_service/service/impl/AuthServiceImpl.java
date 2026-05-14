@@ -63,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
         // Nếu username trống, fallback sang email để tránh lỗi validate
         user.setUsername(resolveUsername(request));
         user.setEnabled(true);
+        applyBasicProfile(user, request.getFullName(), request.getEmail());
 
         // Thiết lập mật khẩu ban đầu cho tài khoản
         CredentialRepresentation credential = new CredentialRepresentation();
@@ -118,6 +119,7 @@ public class AuthServiceImpl implements AuthService {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(request.getUsername());
         user.setEnabled(true);
+        applyBasicProfile(user, request.getFullName(), request.getEmail());
 
         CredentialRepresentation credential = new CredentialRepresentation();
         credential.setType(CredentialRepresentation.PASSWORD);
@@ -148,6 +150,24 @@ public class AuthServiceImpl implements AuthService {
         producer.publishUserRegistered(event);
 
         return userId;
+    }
+
+    private void applyBasicProfile(UserRepresentation user, String fullName, String email) {
+        if (email != null && !email.isBlank()) {
+            user.setEmail(email);
+        }
+
+        if (fullName == null || fullName.isBlank()) {
+            return;
+        }
+
+        String normalizedName = fullName.trim().replaceAll("\\s+", " ");
+        String[] tokens = normalizedName.split(" ");
+
+        user.setFirstName(tokens[0]);
+        if (tokens.length > 1) {
+            user.setLastName(String.join(" ", java.util.Arrays.copyOfRange(tokens, 1, tokens.length)));
+        }
     }
 
     private void clearRequiredActions(String userId) {
