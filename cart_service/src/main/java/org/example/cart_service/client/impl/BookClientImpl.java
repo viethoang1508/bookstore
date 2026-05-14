@@ -24,7 +24,7 @@ public class BookClientImpl implements BookClient {
         BaseResponse<BookResponseDTO> response =
                 webClientBuilder.build()
                         .post()
-                        .uri("http://api-gateway:8282/internal/books/{bookId}", bookId)
+                        .uri("http://localhost:8282/internal/books/{bookId}", bookId)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(bookId)

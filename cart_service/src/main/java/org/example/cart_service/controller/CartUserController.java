@@ -55,6 +55,6 @@ public class CartUserController {
             JwtAuthenticationToken authenticationToken
     ){
         String userId = authenticationToken.getToken().getSubject();
-        return ResponseEntity.ok(new BaseResponse<>(cartService.deleteItemFromCart(bookId, userId), "Delete cart item successfully"));
+        return ResponseEntity.ok(new BaseResponse<>(cartService.deleteItemFromCart(userId, bookId), "Delete cart item successfully"));
     }
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface CartItemRepository extends JpaRepository<CartItem, String> {
     List<CartItem> findAllByCartIdAndIsDeletedFalse(String cartId);
     CartItem findByCartIdAndBookIdAndIsDeletedFalse(String cartId, String bookId);
+    CartItem findByCartIdAndIdAndIsDeletedFalse(String cartId, String id);
 }

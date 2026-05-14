@@ -130,6 +130,10 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = cartItemRepository.findByCartIdAndBookIdAndIsDeletedFalse(cart.getId(), bookId);
 
         if (cartItem == null) {
+            cartItem = cartItemRepository.findByCartIdAndIdAndIsDeletedFalse(cart.getId(), bookId);
+        }
+
+        if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
         }
 
@@ -155,6 +159,10 @@ public class CartServiceImpl implements CartService {
 
         CartItem cartItem = cartItemRepository.findByCartIdAndBookIdAndIsDeletedFalse(cart.getId(), bookId);
 
+        if (cartItem == null) {
+            cartItem = cartItemRepository.findByCartIdAndIdAndIsDeletedFalse(cart.getId(), bookId);
+        }
+        
         if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
         } else {
