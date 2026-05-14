@@ -162,7 +162,7 @@ public class CartServiceImpl implements CartService {
         if (cartItem == null) {
             cartItem = cartItemRepository.findByCartIdAndIdAndIsDeletedFalse(cart.getId(), bookId);
         }
-        
+
         if (cartItem == null) {
             throw new ApplicationException("Item not found with id " + bookId);
         } else {

@@ -22,7 +22,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8180/realms/phone_ecommerce/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8180/realms/bookstore-realm/protocol/openid-connect/certs
 
 logging:
   level:
