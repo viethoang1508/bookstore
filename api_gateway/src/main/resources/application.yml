@@ -4,53 +4,76 @@ server:
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
       routes:
+
+        # AUTH SERVICE
         - id: auth-service
           uri: lb://auth-service
           predicates:
             - Path=/public/auth/**
-            - Path=/public/auth/**, /admin/users/admin
+            - Path=/admin/users/admin
 
+        # BOOK SERVICE
         - id: book-service
           uri: lb://book-service
           predicates:
-            - Path=/public/catalog, /public/catalog/**, /admin/books, /admin/books/**, /admin/categories, /admin/categories/**, /internal/books/**
+            - Path=/public/catalog/**
+            - Path=/admin/books/**
+            - Path=/admin/categories/**
+            - Path=/internal/books/**
 
+        # PROMOTION SERVICE
         - id: promotion-service
           uri: lb://promotion-service
           predicates:
-            - Path=/public/promotions, /public/promotions/**, /admin/promotions, /admin/promotions/**, /internal/promotions/**
+            - Path=/public/promotions/**
+            - Path=/admin/promotions/**
+            - Path=/internal/promotions/**
 
+        # CART SERVICE
         - id: cart-service
           uri: lb://cart-service
           predicates:
-            - Path=/users/cart, /users/cart/**
+            - Path=/users/cart/**
+            - Path=/users/cart
 
+        # ORDER SERVICE
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/users/orders, /users/orders/**, /admin/orders, /admin/orders/**
+            - Path=/users/orders/**
+            - Path=/users/orders
+            - Path=/admin/orders/**
+            - Path=/admin/orders
 
+        # USER SERVICE
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users, /users/**, /internal/users/**
+            - Path=/users/**
+            - Path=/users
+            - Path=/internal/users/**
+
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8180/realms/bookstore-realm/protocol/openid-connect/certs
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
 logging:
   level:
-    root: info
+    root: INFO
     org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: DEBUG
