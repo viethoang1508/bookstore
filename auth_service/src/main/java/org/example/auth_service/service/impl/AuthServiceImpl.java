@@ -15,7 +15,6 @@ import org.example.auth_service.kafka.event.UserRegisteredEvent;
 import org.example.auth_service.kafka.producer.AuthEventProducer;
 import org.example.auth_service.service.AuthService;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -24,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -62,7 +62,6 @@ public class AuthServiceImpl implements AuthService {
         UserRepresentation user = new UserRepresentation();
         // Nếu username trống, fallback sang email để tránh lỗi validate
         user.setUsername(resolveUsername(request));
-        user.setEmail(request.getEmail());
         user.setEnabled(true);
 
         // Thiết lập mật khẩu ban đầu cho tài khoản
@@ -94,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
             UserRegisteredEvent event = new UserRegisteredEvent();
             event.setUserId(userId);
             event.setUsername(user.getUsername());
-            event.setEmail(user.getEmail());
+            event.setEmail(request.getEmail());
             event.setFullName(request.getFullName());
             event.setPhone(request.getPhone());
             event.setRole(DEFAULT_CUSTOMER_ROLE);
@@ -116,7 +115,6 @@ public class AuthServiceImpl implements AuthService {
     public String createAdmin(CreateAdminRequest request) {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
         user.setEnabled(true);
 
         CredentialRepresentation credential = new CredentialRepresentation();
@@ -196,8 +194,17 @@ public class AuthServiceImpl implements AuthService {
                     .postForEntity(tokenUrl, httpRequest, TokenResponse.class);
 
             return response.getBody();
+        } catch (RestClientResponseException e) {
+            String responseBody = e.getResponseBodyAsString();
+            log.error("Login failed with status {} and body {}", e.getStatusCode(), responseBody);
+
+            if (responseBody != null && responseBody.contains("Account is not fully set up")) {
+                throw new ApplicationException("Account is not fully set up. Please verify required actions in Keycloak (e.g. verify email / update password).");
+            }
+
+            throw new ApplicationException("Wrong username or password");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Login failed", e);
             throw new ApplicationException("Wrong username or password");
         }
     }
