@@ -9,63 +9,53 @@ spring:
     gateway:
       routes:
 
+        # =====================================================
         # AUTH SERVICE
+        # =====================================================
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/public/auth
-            - Path=/public/auth/**
-            - Path=/admin/users/admin
-            - Path=/admin/users/admin/**
+            - Path=/public/auth,/public/auth/**,/admin/users/admin,/admin/users/admin/**
 
+        # =====================================================
         # BOOK SERVICE
+        # =====================================================
         - id: book-service
           uri: lb://book-service
           predicates:
-            - Path=/public/catalog
-            - Path=/public/catalog/**
-            - Path=/admin/books
-            - Path=/admin/books/**
-            - Path=/admin/categories
-            - Path=/admin/categories/**
-            - Path=/internal/books
-            - Path=/internal/books/**
+            - Path=/public/catalog,/public/catalog/**,/admin/books,/admin/books/**,/admin/categories,/admin/categories/**,/internal/books,/internal/books/**
 
+        # =====================================================
         # PROMOTION SERVICE
+        # =====================================================
         - id: promotion-service
           uri: lb://promotion-service
           predicates:
-            - Path=/public/promotions
-            - Path=/public/promotions/**
-            - Path=/admin/promotions
-            - Path=/admin/promotions/**
-            - Path=/internal/promotions
-            - Path=/internal/promotions/**
+            - Path=/public/promotions,/public/promotions/**,/admin/promotions,/admin/promotions/**,/internal/promotions,/internal/promotions/**
 
+        # =====================================================
         # CART SERVICE
+        # =====================================================
         - id: cart-service
           uri: lb://cart-service
           predicates:
-            - Path=/users/cart
-            - Path=/users/cart/**
+            - Path=/users/cart,/users/cart/**
 
+        # =====================================================
         # ORDER SERVICE
+        # =====================================================
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/users/orders
-            - Path=/users/orders/**
-            - Path=/admin/orders
-            - Path=/admin/orders/**
+            - Path=/users/orders,/users/orders/**,/admin/orders,/admin/orders/**
 
+        # =====================================================
         # USER SERVICE
+        # =====================================================
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users
-            - Path=/users/**
-            - Path=/internal/users
-            - Path=/internal/users/**
+            - Path=/users,/users/**,/internal/users,/internal/users/**
 
   security:
     oauth2:
