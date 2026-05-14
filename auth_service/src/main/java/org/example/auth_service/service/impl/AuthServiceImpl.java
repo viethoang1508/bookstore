@@ -86,6 +86,8 @@ public class AuthServiceImpl implements AuthService {
             }
             userId = location.substring(location.lastIndexOf("/") + 1);
 
+            clearRequiredActions(userId);
+
             // Gán role khách hàng cho user mới
             assignRealmRole(userId, DEFAULT_CUSTOMER_ROLE);
 
@@ -133,6 +135,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Cannot get created admin location from Keycloak");
         }
         String userId = location.substring(location.lastIndexOf("/") + 1);
+        clearRequiredActions(userId);
         assignRealmRole(userId, ADMIN_ROLE);
 
         UserRegisteredEvent event = new UserRegisteredEvent();
@@ -145,6 +148,16 @@ public class AuthServiceImpl implements AuthService {
         producer.publishUserRegistered(event);
 
         return userId;
+    }
+
+    private void clearRequiredActions(String userId) {
+        UserRepresentation createdUser = keycloak.realm(realm)
+                .users()
+                .get(userId)
+                .toRepresentation();
+
+        createdUser.setRequiredActions(Collections.emptyList());
+        keycloak.realm(realm).users().get(userId).update(createdUser);
     }
 
     private void assignRealmRole(String userId, String roleName) {

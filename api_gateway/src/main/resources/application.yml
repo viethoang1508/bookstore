@@ -13,48 +13,58 @@ spring:
         - id: auth-service
           uri: lb://auth-service
           predicates:
+            - Path=/public/auth
             - Path=/public/auth/**
-            - Path=/admin/users/admin,/admin/users/admin/**
+            - Path=/admin/users/admin
+            - Path=/admin/users/admin/**
 
         # BOOK SERVICE
         - id: book-service
           uri: lb://book-service
           predicates:
+            - Path=/public/catalog
             - Path=/public/catalog/**
+            - Path=/admin/books
             - Path=/admin/books/**
+            - Path=/admin/categories
             - Path=/admin/categories/**
+            - Path=/internal/books
             - Path=/internal/books/**
 
         # PROMOTION SERVICE
         - id: promotion-service
           uri: lb://promotion-service
           predicates:
+            - Path=/public/promotions
             - Path=/public/promotions/**
+            - Path=/admin/promotions
             - Path=/admin/promotions/**
+            - Path=/internal/promotions
             - Path=/internal/promotions/**
 
         # CART SERVICE
         - id: cart-service
           uri: lb://cart-service
           predicates:
-            - Path=/users/cart/**
             - Path=/users/cart
+            - Path=/users/cart/**
 
         # ORDER SERVICE
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/users/orders/**
             - Path=/users/orders
-            - Path=/admin/orders/**
+            - Path=/users/orders/**
             - Path=/admin/orders
+            - Path=/admin/orders/**
 
         # USER SERVICE
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**
             - Path=/users
+            - Path=/users/**
+            - Path=/internal/users
             - Path=/internal/users/**
 
   security:
