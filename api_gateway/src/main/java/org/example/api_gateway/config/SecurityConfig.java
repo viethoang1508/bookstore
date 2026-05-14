@@ -105,7 +105,13 @@ public class SecurityConfig {
         return roleCollection.stream()
                 .filter(String.class::isInstance)
                 .map(String.class::cast)
-                .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
+                .flatMap(role -> {
+                    String normalized = role.startsWith("ROLE_") ? role : "ROLE_" + role;
+                    if ("ROLE_SUPER_ADMIN".equals(normalized)) {
+                        return Stream.of("ROLE_SUPER_ADMIN", "ROLE_ADMIN");
+                    }
+                    return Stream.of(normalized);
+                })
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }

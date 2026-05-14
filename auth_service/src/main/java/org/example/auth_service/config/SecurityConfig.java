@@ -45,7 +45,12 @@ public class SecurityConfig {
         Map<String, Object> realmAccess = jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.get("roles") instanceof List<?> roles) {
             for (Object role : roles) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+                String roleName = String.valueOf(role);
+                String normalized = roleName.startsWith("ROLE_") ? roleName : "ROLE_" + roleName;
+                authorities.add(new SimpleGrantedAuthority(normalized));
+                if ("ROLE_SUPER_ADMIN".equals(normalized)) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                }
             }
         }
         return authorities;
