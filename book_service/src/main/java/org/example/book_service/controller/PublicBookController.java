@@ -24,12 +24,12 @@ public class PublicBookController {
         return ResponseEntity.ok(new BaseResponse<>(catalogService.getBooks(request), "Get catalog successfully"));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<BaseResponse<BookSummaryDTO>> getBookById(@PathVariable String id) {
         return ResponseEntity.ok(new BaseResponse<>(catalogService.getBookById(id), "Get book information successfully"));
     }
 
-    @GetMapping("/categories/id")
+    @GetMapping("/categories/{id}")
     public ResponseEntity<BaseResponse<Page<BookSummaryDTO>>> getBooksByCategory(@RequestParam String id) {
         return ResponseEntity.ok(new BaseResponse<>(catalogService.getBooksByCategory(id), "Get all books in this category successfully"));
     }

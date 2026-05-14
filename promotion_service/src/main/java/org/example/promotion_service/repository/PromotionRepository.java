@@ -1,6 +1,5 @@
 package org.example.promotion_service.repository;
 
-import org.example.promotion_service.dto.response.PromotionResponse;
 import org.example.promotion_service.entity.Promotion;
 import org.example.promotion_service.entity.PromotionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
