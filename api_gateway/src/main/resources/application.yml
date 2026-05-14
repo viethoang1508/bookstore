@@ -14,7 +14,7 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/public/auth/**
-            - Path=/admin/users/admin
+            - Path=/admin/users/admin,/admin/users/admin/**
 
         # BOOK SERVICE
         - id: book-service
