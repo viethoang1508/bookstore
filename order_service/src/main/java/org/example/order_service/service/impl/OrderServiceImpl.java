@@ -216,6 +216,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public OrderResponse placeOrder(PlaceOrderRequest request, String userId) {
         log.info("Placing order, userId={}", userId);
 
@@ -356,6 +357,10 @@ public class OrderServiceImpl implements OrderService {
         order.setDiscountAmount(discountAmount);
         order.setTotalAmount(totalPrice);
         order.setFinalAmount(finalPrice);
+        order.setReceiverName(request.getReceiverName());
+        order.setReceiverPhone(request.getReceiverPhone());
+        order.setShippingAddress(request.getShippingAddress());
+        order.setNote(request.getNote());
 
         orderRepository.save(order);
 
@@ -434,6 +439,7 @@ public class OrderServiceImpl implements OrderService {
         orderResponse.setOrderId(order.getId());
         orderResponse.setTotalAmount(totalPrice);
         orderResponse.setDiscountAmount(discountAmount);
+        orderResponse.setFinalAmount(finalPrice);
         orderResponse.setStatus(OrderStatus.PENDING.name());
 
         List<OrderItemDTO> itemDTOS = orderItems.stream()

@@ -8,50 +8,37 @@ spring:
   cloud:
     gateway:
       routes:
-
-        # =====================================================
         # AUTH SERVICE
-        # =====================================================
         - id: auth-service
           uri: lb://auth-service
           predicates:
             - Path=/public/auth,/public/auth/**,/admin/users/admin,/admin/users/admin/**
 
-        # =====================================================
         # BOOK SERVICE
-        # =====================================================
         - id: book-service
           uri: lb://book-service
           predicates:
             - Path=/public/catalog,/public/catalog/**,/admin/books,/admin/books/**,/admin/categories,/admin/categories/**,/internal/books,/internal/books/**
 
-        # =====================================================
         # PROMOTION SERVICE
-        # =====================================================
         - id: promotion-service
           uri: lb://promotion-service
           predicates:
             - Path=/public/promotions,/public/promotions/**,/admin/promotions,/admin/promotions/**,/internal/promotions,/internal/promotions/**
 
-        # =====================================================
         # CART SERVICE
-        # =====================================================
         - id: cart-service
           uri: lb://cart-service
           predicates:
             - Path=/users/cart,/users/cart/**
 
-        # =====================================================
         # ORDER SERVICE
-        # =====================================================
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/users/orders,/users/orders/**,/admin/orders,/admin/orders/**
 
-        # =====================================================
         # USER SERVICE
-        # =====================================================
         - id: user-service
           uri: lb://user-service
           predicates:
