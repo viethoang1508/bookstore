@@ -70,6 +70,9 @@ public class InternalServiceImpl implements InternalService {
     @Override
     public Set<String> checkIfBooksExist(List<String> bookIds) {
         log.info("Checking existing books, requestedSize={}", bookIds != null ? bookIds.size() : 0);
+        if (bookIds == null || bookIds.isEmpty()) {
+            return Collections.emptySet();
+        }
         return new HashSet<>(bookRepository.findExistingBookIds(bookIds));
     }
 

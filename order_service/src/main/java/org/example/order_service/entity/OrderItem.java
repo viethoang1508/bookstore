@@ -25,6 +25,12 @@ public class OrderItem extends BaseEntity{
     @Column(name = "book_name")
     private String bookName;
 
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "original_price")
+    private BigDecimal originalPrice;
+
     @Column(nullable = false)
     private Integer quantity;
 

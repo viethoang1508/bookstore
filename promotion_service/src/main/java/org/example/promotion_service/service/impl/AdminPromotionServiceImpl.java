@@ -27,9 +27,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminPromotionServiceImpl implements AdminPromotionService {
-    private static final String SCOPE_BOOK = "BOOK";
-    private static final String SCOPE_CATEGORY = "CATEGORY";
-    private static final Set<String> SUPPORTED_SCOPES = Set.of(SCOPE_BOOK, SCOPE_CATEGORY);
+    private static final String SCOPE_ORDER = "ORDER";
+    private static final String SCOPE_ITEM = "ITEM";
+    private static final Set<String> SUPPORTED_SCOPES = Set.of(SCOPE_ORDER, SCOPE_ITEM);
 
     private final PromotionMapper promotionMapper;
     private final PromotionBookRepository promotionBookRepository;
@@ -129,7 +129,7 @@ public class AdminPromotionServiceImpl implements AdminPromotionService {
         Promotion promotion =  promotionRepository.findById(promotionId)
                 .orElseThrow(() -> new ApplicationException("Promotion not found"));
 
-        if (!SCOPE_BOOK.equalsIgnoreCase(promotion.getScope())) {
+        if (!SCOPE_ITEM.equalsIgnoreCase(promotion.getScope())) {
             throw new ApplicationException("This promotion scope does not allow book assignment");
         }
 

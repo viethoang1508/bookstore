@@ -155,6 +155,7 @@ public class OrderServiceImpl implements OrderService {
             CheckoutItemDTO dto = new CheckoutItemDTO();
             dto.setBookId(book.getBookId());
             dto.setBookName(book.getBookName());
+            dto.setImage(book.getImage());
             dto.setQuantity(item.getQuantity());
             dto.setPrice(book.getPrice());
 
@@ -409,7 +410,9 @@ public class OrderServiceImpl implements OrderService {
             item.setBookId(orderItem.getBookId());
             item.setQuantity(quantity);
             item.setPrice(discountedPrice);
+            item.setOriginalPrice(originalPrice);
             item.setBookName(book.getBookName());
+            item.setImage(book.getImage());
             item.setTotalPrice(subTotal);
 
             orderItems.add(item);
@@ -447,6 +450,8 @@ public class OrderServiceImpl implements OrderService {
                     OrderItemDTO dto = new OrderItemDTO();
                     dto.setBookId(oi.getBookId());
                     dto.setBookName(oi.getBookName());
+                    dto.setImage(oi.getImage());
+                    dto.setOriginalPrice(oi.getOriginalPrice());
                     dto.setQuantity(oi.getQuantity());
                     dto.setPrice(oi.getPrice());
                     dto.setTotalPrice(oi.getTotalPrice());
@@ -579,6 +584,8 @@ public class OrderServiceImpl implements OrderService {
                         OrderItemDTO dto = new OrderItemDTO();
                         dto.setBookId(i.getBookId());
                         dto.setBookName(i.getBookName());
+                        dto.setImage(i.getImage());
+                        dto.setOriginalPrice(i.getOriginalPrice());
                         dto.setQuantity(i.getQuantity());
                         dto.setPrice(i.getPrice());
                         dto.setTotalPrice(i.getTotalPrice());
@@ -615,6 +622,8 @@ public class OrderServiceImpl implements OrderService {
             OrderItemDTO dto = new OrderItemDTO();
             dto.setBookId(i.getBookId());
             dto.setBookName(i.getBookName());
+            dto.setImage(i.getImage());
+            dto.setOriginalPrice(i.getOriginalPrice());
             dto.setPrice(i.getPrice());
             dto.setQuantity(i.getQuantity());
             dto.setTotalPrice(i.getTotalPrice());
@@ -666,6 +675,8 @@ public class OrderServiceImpl implements OrderService {
                         OrderItemDTO dto = new OrderItemDTO();
                         dto.setBookId(i.getBookId());
                         dto.setBookName(i.getBookName());
+                        dto.setImage(i.getImage());
+                        dto.setOriginalPrice(i.getOriginalPrice());
                         dto.setQuantity(i.getQuantity());
                         dto.setPrice(i.getPrice());
                         dto.setTotalPrice(i.getTotalPrice());

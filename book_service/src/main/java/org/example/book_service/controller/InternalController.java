@@ -33,8 +33,8 @@ public class InternalController {
         return ResponseEntity.ok(new BaseResponse<>(internalService.getBookForCart(bookId), "Get book successfully"));
     }
 
-    @GetMapping("/books/existing")
-    public ResponseEntity<BaseResponse<Set<String>>> checkIfBooksExist(@RequestBody List<String> bookIds){
+    @PostMapping("/books/existing")
+    public ResponseEntity<BaseResponse<Set<String>>> checkIfBooksExist(@RequestBody(required = false) List<String> bookIds){
         return ResponseEntity.ok(new BaseResponse<>(internalService.checkIfBooksExist(bookIds), "Finish checking book"));
     }
 
